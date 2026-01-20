@@ -60,21 +60,30 @@
     scroll-behavior: smooth;
   }
 
-  /* Custom scrollbar */
+  /* Stitch-style minimal scrollbar */
   ::-webkit-scrollbar {
-    width: 10px;
+    width: 6px;
   }
 
   ::-webkit-scrollbar-track {
-    @apply bg-neutral-100;
+    background: transparent;
   }
 
   ::-webkit-scrollbar-thumb {
-    @apply bg-primary-400 rounded-full;
+    background: #cbd5e1;
+    border-radius: 4px;
+  }
+
+  .dark ::-webkit-scrollbar-thumb {
+    background: #475569;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    @apply bg-primary-500;
+    background: #94a3b8;
+  }
+
+  .dark ::-webkit-scrollbar-thumb:hover {
+    background: #64748b;
   }
 
   /* Focus visible */

@@ -1,6 +1,5 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Award, GraduationCap, Star } from "lucide-react";
+import { Star } from "lucide-react";
 
 const doctors = [
   {
@@ -58,95 +57,94 @@ const doctors = [
 
 export function DoctorsSection() {
   return (
-    <section id="doctors" className="bg-neutral-50 py-20 lg:py-32">
+    <section id="doctors" className="bg-zinc-50 dark:bg-zinc-900/50 py-24 border-y border-zinc-200 dark:border-zinc-800">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <div className="mb-16 text-center">
-          <div className="mb-4 inline-block rounded-full bg-secondary-100 px-4 py-2 text-sm font-medium text-secondary-700">
-            Наши врачи
+        <div className="mb-16 text-center max-w-3xl mx-auto">
+          <div className="mb-4 inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 dark:bg-blue-900/30 text-secondary text-xs font-semibold border border-blue-100 dark:border-blue-800">
+            <span className="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+            Наши специалисты
           </div>
-          <h2 className="mb-4 text-balance text-3xl font-bold text-neutral-900 sm:text-4xl lg:text-5xl">
-            Опытные специалисты с европейским образованием
+          <h2 className="mb-4 text-3xl font-bold tracking-tight text-zinc-900 dark:text-white">
+            Опытные врачи с европейским образованием
           </h2>
-          <p className="mx-auto max-w-2xl text-balance text-lg text-neutral-600">
+          <p className="text-zinc-600 dark:text-zinc-400">
             Каждый врач нашей клиники — профессионал с многолетним опытом и
             международными сертификатами.
           </p>
         </div>
 
-        {/* Doctors Grid */}
-        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+        {/* Doctors Grid - Stitch style */}
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {doctors.map((doctor) => (
-            <Card key={doctor.name} className="overflow-hidden">
-              {/* Doctor Photo Placeholder */}
-              <div className="h-64 bg-gradient-to-br from-primary-100 to-secondary-100">
-                <div className="flex h-full items-center justify-center">
-                  <div className="h-32 w-32 rounded-full bg-white/50 backdrop-blur" />
+            <div
+              key={doctor.name}
+              className="group bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-card p-6 flex flex-col items-center text-center transition-all hover:shadow-card hover:border-zinc-300 dark:hover:border-zinc-600"
+            >
+              {/* Doctor Photo */}
+              <div className="relative mb-5">
+                <div className="w-24 h-24 rounded-full overflow-hidden ring-4 ring-zinc-50 dark:ring-zinc-800">
+                  <div className="w-full h-full bg-gradient-to-br from-zinc-100 to-zinc-200 dark:from-zinc-800 dark:to-zinc-700 flex items-center justify-center">
+                    <div className="h-16 w-16 rounded-full bg-white/50 dark:bg-zinc-600/50 backdrop-blur" />
+                  </div>
+                </div>
+                {doctor.rating >= 4.9 && (
+                  <div className="absolute bottom-0 right-0 w-6 h-6 bg-green-500 border-2 border-white dark:border-zinc-950 rounded-full flex items-center justify-center" title="Top Rated">
+                    <Star className="h-3 w-3 text-white fill-white" />
+                  </div>
+                )}
+              </div>
+
+              {/* Doctor Info */}
+              <h3 className="text-lg font-bold text-zinc-900 dark:text-white">{doctor.name}</h3>
+              <p className="text-secondary font-medium text-sm mb-3">{doctor.role}</p>
+
+              {/* Rating */}
+              <div className="flex items-center gap-1 mb-4 text-zinc-500 dark:text-zinc-400 text-xs">
+                <Star className="h-4 w-4 text-yellow-400 fill-yellow-400" />
+                <span className="font-medium text-zinc-700 dark:text-zinc-300">{doctor.rating}</span>
+                <span>({doctor.reviews} отзывов)</span>
+                <span className="mx-1">•</span>
+                <span>{doctor.experience}</span>
+              </div>
+
+              {/* Education - compact */}
+              <div className="w-full mb-4">
+                <h4 className="text-sm font-semibold text-zinc-900 dark:text-white mb-2">Образование</h4>
+                <ul className="space-y-1 text-xs text-zinc-500 dark:text-zinc-400 text-left">
+                  {doctor.education.slice(0, 2).map((item, idx) => (
+                    <li key={idx} className="flex items-start gap-2">
+                      <span className="mt-1.5 h-1 w-1 flex-shrink-0 rounded-full bg-primary" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Specializations - tags */}
+              <div className="w-full mb-6">
+                <div className="flex flex-wrap gap-2 justify-center">
+                  {doctor.specializations.map((spec) => (
+                    <span
+                      key={spec}
+                      className="rounded-full bg-zinc-100 dark:bg-zinc-800 px-3 py-1 text-xs font-medium text-zinc-700 dark:text-zinc-300"
+                    >
+                      {spec}
+                    </span>
+                  ))}
                 </div>
               </div>
 
-              <CardHeader>
-                <div className="mb-2 flex items-center justify-between">
-                  <div className="flex items-center gap-1 text-sm font-medium text-accent-600">
-                    <Star className="h-4 w-4 fill-accent-500" />
-                    <span>{doctor.rating}</span>
-                    <span className="text-neutral-400">
-                      ({doctor.reviews})
-                    </span>
-                  </div>
-                  <div className="flex gap-1">
-                    <Award className="h-4 w-4 text-primary-500" />
-                    <GraduationCap className="h-4 w-4 text-secondary-500" />
-                  </div>
-                </div>
-
-                <CardTitle className="text-2xl">{doctor.name}</CardTitle>
-                <CardDescription className="text-base">
-                  {doctor.role}
-                </CardDescription>
-                <p className="pt-2 text-sm font-medium text-neutral-700">
-                  {doctor.experience}
-                </p>
-              </CardHeader>
-
-              <CardContent className="space-y-4">
-                {/* Education */}
-                <div>
-                  <h4 className="mb-2 text-sm font-semibold text-neutral-900">
-                    Образование
-                  </h4>
-                  <ul className="space-y-1 text-sm text-neutral-600">
-                    {doctor.education.map((item, idx) => (
-                      <li key={idx} className="flex items-start gap-2">
-                        <span className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-primary-500" />
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                {/* Specializations */}
-                <div>
-                  <h4 className="mb-2 text-sm font-semibold text-neutral-900">
-                    Специализация
-                  </h4>
-                  <div className="flex flex-wrap gap-2">
-                    {doctor.specializations.map((spec) => (
-                      <span
-                        key={spec}
-                        className="rounded-full bg-primary-100 px-3 py-1 text-xs font-medium text-primary-700"
-                      >
-                        {spec}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                <Button variant="outline" className="w-full">
-                  Записаться к врачу
+              {/* Action Buttons */}
+              <div className="mt-auto w-full grid grid-cols-2 gap-3">
+                <Button variant="outline" className="text-sm" size="sm">
+                  Профиль
                 </Button>
-              </CardContent>
-            </Card>
+                <Button className="text-sm shadow-sm" size="sm">
+                  Записаться
+                </Button>
+              </div>
+            </div>
           ))}
         </div>
       </div>

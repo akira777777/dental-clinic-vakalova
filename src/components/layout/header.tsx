@@ -17,19 +17,19 @@ export function Header() {
   ];
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-neutral-200 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60">
+    <header className="fixed top-0 z-50 w-full border-b border-zinc-200 dark:border-zinc-800 bg-white/80 dark:bg-zinc-950/80 backdrop-blur-md">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex h-20 items-center justify-between">
+        <div className="flex h-16 items-center justify-between">
           {/* Logo */}
-          <Link href="/" className="flex items-center space-x-2">
-            <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary-500">
-              <span className="text-2xl font-bold text-white">Т</span>
+          <Link href="/" className="flex items-center gap-2">
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-white">
+              <span className="text-lg font-bold">Т</span>
             </div>
             <div className="hidden flex-col sm:flex">
-              <span className="text-lg font-bold text-neutral-900">
+              <span className="text-lg font-bold tracking-tight text-zinc-900 dark:text-white">
                 Татьяна Вакалова
               </span>
-              <span className="text-xs text-neutral-600">
+              <span className="text-xs text-zinc-500 dark:text-zinc-400">
                 Стоматологическая клиника
               </span>
             </div>
@@ -41,7 +41,7 @@ export function Header() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-sm font-medium text-neutral-700 transition-colors hover:text-primary-600"
+                className="text-sm font-medium text-zinc-600 dark:text-zinc-400 transition-colors hover:text-primary dark:hover:text-primary"
               >
                 {link.label}
               </Link>
@@ -51,19 +51,19 @@ export function Header() {
           {/* Contact Info & CTA */}
           <div className="hidden items-center gap-4 lg:flex">
             <div className="flex items-center gap-2 text-sm">
-              <Phone className="h-4 w-4 text-primary-500" />
-              <span className="font-medium text-neutral-900">
+              <Phone className="h-4 w-4 text-primary" />
+              <span className="font-medium text-zinc-900 dark:text-white">
                 +420 123 456 789
               </span>
             </div>
-            <Button size="sm" asChild>
+            <Button size="sm" asChild className="shadow-sm">
               <a href="/booking">Записаться</a>
             </Button>
           </div>
 
           {/* Mobile Menu Button */}
           <button
-            className="md:hidden"
+            className="md:hidden p-2 rounded-md text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             aria-label="Toggle menu"
           >
@@ -78,22 +78,22 @@ export function Header() {
         {/* Mobile Navigation */}
         {isMenuOpen && (
           <div className="animate-slide-down md:hidden">
-            <nav className="flex flex-col space-y-4 pb-6">
+            <nav className="flex flex-col space-y-4 pb-6 border-t border-zinc-200 dark:border-zinc-800 pt-4">
               {navLinks.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="text-sm font-medium text-neutral-700 transition-colors hover:text-primary-600"
+                  className="text-sm font-medium text-zinc-600 dark:text-zinc-400 transition-colors hover:text-primary dark:hover:text-primary"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   {link.label}
                 </Link>
               ))}
-              <div className="flex items-center gap-2 pt-2 text-sm">
-                <Phone className="h-4 w-4 text-primary-500" />
-                <span className="font-medium">+420 123 456 789</span>
+              <div className="flex items-center gap-2 pt-2 text-sm border-t border-zinc-100 dark:border-zinc-800">
+                <Phone className="h-4 w-4 text-primary" />
+                <span className="font-medium text-zinc-900 dark:text-white">+420 123 456 789</span>
               </div>
-              <Button className="w-full">Записаться на прием</Button>
+              <Button className="w-full shadow-sm">Записаться на прием</Button>
             </nav>
           </div>
         )}

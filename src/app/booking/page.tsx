@@ -3,49 +3,38 @@
 import { Footer } from "@/components/layout/footer";
 import { Header } from "@/components/layout/header";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import Link from "next/link";
 import {
-  AlertCircle,
-  ArrowLeft,
-  ArrowRight,
+  Calendar,
   CheckCircle,
-  Clock
+  ChevronLeft,
+  ChevronRight,
+  Search,
+  Shield,
+  ThumbsUp,
+  User
 } from "lucide-react";
+import Link from "next/link";
 import { useState } from "react";
 
-const services = [
-  { id: "1", name: "Лечение кариеса", duration: 60, price: 1500 },
-  { id: "2", name: "Профессиональная чистка", duration: 45, price: 1200 },
-  { id: "3", name: "Отбеливание зубов", duration: 90, price: 8000 },
-  { id: "4", name: "Имплантация", duration: 120, price: 15000 },
-  { id: "5", name: "Протезирование", duration: 90, price: 8000 },
-  { id: "6", name: "Хирургия", duration: 60, price: 2000 },
-  { id: "7", name: "Детская стоматология", duration: 30, price: 800 },
-  { id: "8", name: "Пародонтология", duration: 60, price: 1500 },
-];
-
-const doctors = [
-  { id: "1", name: "Татьяна Вакалова", specialization: "Терапевт, главный врач" },
-  { id: "2", name: "Петр Новак", specialization: "Хирург, имплантолог" },
-  { id: "3", name: "Анна Черна", specialization: "Ортопед" },
+const departments = [
+  { id: "1", name: "Терапевтическая стоматология", desc: "Лечение кариеса, пломбы", doctor: "Татьяна Вакалова" },
+  { id: "2", name: "Хирургия и имплантология", desc: "Удаление, имплантаты", doctor: "Петр Новак" },
+  { id: "3", name: "Ортопедия", desc: "Протезирование, коронки", doctor: "Анна Черна" },
+  { id: "4", name: "Детская стоматология", desc: "Лечение детей", doctor: "Татьяна Вакалова" },
 ];
 
 const timeSlots = [
   "09:00", "09:30", "10:00", "10:30", "11:00", "11:30",
   "12:00", "12:30", "14:00", "14:30", "15:00", "15:30",
-  "16:00", "16:30", "17:00", "17:30", "18:00", "18:30",
 ];
 
 export default function BookingPage() {
-  const [step, setStep] = useState(1);
   const [bookingData, setBookingData] = useState({
-    serviceId: "",
-    doctorId: "",
+    departmentId: "1",
     date: "",
-    time: "",
+    time: "09:30",
     firstName: "",
     lastName: "",
     phone: "",
@@ -55,18 +44,10 @@ export default function BookingPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
 
-  const selectedService = services.find(s => s.id === bookingData.serviceId);
-  const selectedDoctor = doctors.find(d => d.id === bookingData.doctorId);
+  const selectedDepartment = departments.find(d => d.id === bookingData.departmentId);
 
-  const nextStep = () => {
-    if (step < 4) setStep(step + 1);
-  };
-
-  const prevStep = () => {
-    if (step > 1) setStep(step - 1);
-  };
-
-  const handleSubmit = async () => {
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
     setIsSubmitting(true);
 
     try {
@@ -92,36 +73,34 @@ export default function BookingPage() {
     return (
       <>
         <Header />
-        <div className="min-h-screen bg-gradient-to-br from-accent-50 to-primary-50 py-20">
+        <div className="min-h-screen bg-white dark:bg-zinc-950 pt-24 pb-16">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-            <Card className="mx-auto max-w-2xl text-center">
-              <CardContent className="p-12">
-                <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-accent-100">
-                  <CheckCircle className="h-10 w-10 text-accent-600" />
-                </div>
-                <h1 className="mb-4 text-3xl font-bold text-neutral-900">
-                  Запись подтверждена!
-                </h1>
-                <p className="mb-2 text-lg text-neutral-700">
-                  Ваша запись на <span className="font-semibold">{bookingData.date}</span> в{" "}
-                  <span className="font-semibold">{bookingData.time}</span>
+            <div className="mx-auto max-w-2xl text-center bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-zinc-800 p-12 shadow-card">
+              <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-green-100 dark:bg-green-900/30">
+                <CheckCircle className="h-10 w-10 text-green-600 dark:text-green-400" />
+              </div>
+              <h1 className="mb-4 text-3xl font-bold text-zinc-900 dark:text-white">
+                Запись подтверждена!
+              </h1>
+              <p className="mb-2 text-lg text-zinc-700 dark:text-zinc-300">
+                Ваша запись на <span className="font-semibold">{bookingData.date}</span> в{" "}
+                <span className="font-semibold">{bookingData.time}</span>
+              </p>
+              <p className="mb-8 text-zinc-600 dark:text-zinc-400">
+                Мы отправили подтверждение на {bookingData.email}
+              </p>
+              <div className="space-y-3">
+                <Button size="lg" asChild className="shadow-lg shadow-primary/20">
+                  <Link href="/">Вернуться на главную</Link>
+                </Button>
+                <p className="text-sm text-zinc-600 dark:text-zinc-400">
+                  Вопросы? Позвоните нам:{" "}
+                  <a href="tel:+420123456789" className="font-medium text-primary">
+                    +420 123 456 789
+                  </a>
                 </p>
-                <p className="mb-8 text-neutral-600">
-                  Мы отправили подтверждение на {bookingData.email}
-                </p>
-                <div className="space-y-3">
-                  <Button size="lg" asChild>
-                    <Link href="/">Вернуться на главную</Link>
-                  </Button>
-                  <p className="text-sm text-neutral-600">
-                    Вопросы? Позвоните нам:{" "}
-                    <a href="tel:+420123456789" className="font-medium text-primary-600">
-                      +420 123 456 789
-                    </a>
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
+              </div>
+            </div>
           </div>
         </div>
         <Footer />
@@ -132,162 +111,165 @@ export default function BookingPage() {
   return (
     <>
       <Header />
-      <div className="min-h-screen bg-neutral-50 py-12">
+      <main className="flex-grow bg-white dark:bg-zinc-950 pt-20 pb-12">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="mb-8">
-            <h1 className="mb-2 text-3xl font-bold text-neutral-900">
-              Онлайн-запись на прием
+          {/* Page Header */}
+          <header className="mb-8 text-center sm:text-left">
+            <h1 className="text-3xl font-bold tracking-tight text-zinc-900 dark:text-white">
+              Записаться на прием
             </h1>
-            <p className="text-neutral-600">
-              Заполните форму, и мы подтвердим вашу запись
+            <p className="mt-2 text-zinc-500 dark:text-zinc-400">
+              Выберите удобное время для визита к нашим специалистам
             </p>
-          </div>
+          </header>
 
-          {/* Progress Steps */}
-          <div className="mb-8 flex justify-center">
-            <div className="flex items-center gap-4">
-              {[1, 2, 3, 4].map((num) => (
-                <div key={num} className="flex items-center gap-2">
-                  <div
-                    className={`flex h-10 w-10 items-center justify-center rounded-full text-sm font-semibold transition-colors ${step >= num
-                        ? "bg-primary-500 text-white"
-                        : "bg-neutral-200 text-neutral-500"
-                      }`}
-                  >
-                    {num}
-                  </div>
-                  {num < 4 && (
-                    <div
-                      className={`h-0.5 w-12 ${step > num ? "bg-primary-500" : "bg-neutral-200"
-                        }`}
-                    />
-                  )}
+          <div className="lg:grid lg:grid-cols-12 lg:gap-8 items-start">
+            {/* Main Content */}
+            <div className="lg:col-span-8 space-y-8">
+              {/* Step 1: Select Department */}
+              <div className="bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-zinc-800 shadow-sm p-6">
+                <div className="flex items-center justify-between mb-4">
+                  <h2 className="text-lg font-semibold flex items-center gap-2">
+                    <span className="bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300 w-6 h-6 rounded-full flex items-center justify-center text-xs">1</span>
+                    Выберите отделение
+                  </h2>
+                  <span className="text-xs font-medium text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-900/30 px-2 py-1 rounded-full">
+                    В процессе
+                  </span>
                 </div>
-              ))}
-            </div>
-          </div>
 
-          <Card className="mx-auto max-w-3xl">
-            <CardHeader>
-              <CardTitle className="text-2xl">
-                {step === 1 && "Выберите услугу"}
-                {step === 2 && "Выберите врача"}
-                {step === 3 && "Выберите дату и время"}
-                {step === 4 && "Ваши контактные данные"}
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              {/* Step 1: Service Selection */}
-              {step === 1 && (
-                <div className="space-y-3">
-                  {services.map((service) => (
-                    <button
-                      key={service.id}
-                      onClick={() => setBookingData({ ...bookingData, serviceId: service.id })}
-                      className={`w-full rounded-lg border-2 p-4 text-left transition-all hover:border-primary-500 ${bookingData.serviceId === service.id
-                          ? "border-primary-500 bg-primary-50"
-                          : "border-neutral-200"
+                <div className="relative mb-6">
+                  <Search className="absolute left-3 top-2.5 h-5 w-5 text-zinc-400" />
+                  <input
+                    className="w-full pl-10 pr-4 py-2 rounded-lg border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-black/30 text-sm focus:ring-2 focus:ring-primary focus:border-transparent dark:text-white"
+                    placeholder="Поиск специалиста или услуги..."
+                    type="text"
+                  />
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {departments.map((dept) => (
+                    <label
+                      key={dept.id}
+                      className={`relative flex items-start p-4 cursor-pointer rounded-lg border transition-all ${bookingData.departmentId === dept.id
+                          ? "border-primary bg-blue-50/50 dark:bg-blue-900/20 dark:border-primary"
+                          : "border-zinc-200 dark:border-zinc-800 hover:border-zinc-300 dark:hover:border-zinc-600"
                         }`}
                     >
-                      <div className="flex items-center justify-between">
-                        <div>
-                          <div className="font-semibold text-neutral-900">
-                            {service.name}
-                          </div>
-                          <div className="mt-1 flex gap-4 text-sm text-neutral-600">
-                            <span className="flex items-center gap-1">
-                              <Clock className="h-3 w-3" />
-                              {service.duration} мин
-                            </span>
-                            <span className="font-medium text-primary-600">
-                              От {service.price} Kč
-                            </span>
-                          </div>
+                      <input
+                        type="radio"
+                        name="department"
+                        checked={bookingData.departmentId === dept.id}
+                        onChange={() => setBookingData({ ...bookingData, departmentId: dept.id })}
+                        className="mt-1 h-4 w-4 text-primary border-zinc-300 focus:ring-primary"
+                      />
+                      <div className="ml-3">
+                        <span className="block text-sm font-medium text-zinc-900 dark:text-white">
+                          {dept.name}
+                        </span>
+                        <span className="block text-xs text-zinc-500 dark:text-zinc-400 mt-1">
+                          {dept.desc}
+                        </span>
+                        <div className="mt-2 flex items-center gap-2">
+                          <User className="h-4 w-4 text-zinc-400" />
+                          <span className="text-xs text-zinc-600 dark:text-zinc-300">
+                            {dept.doctor}
+                          </span>
                         </div>
-                        {bookingData.serviceId === service.id && (
-                          <CheckCircle className="h-6 w-6 text-primary-500" />
-                        )}
                       </div>
-                    </button>
-                  ))}
-                </div>
-              )}
-
-              {/* Step 2: Doctor Selection */}
-              {step === 2 && (
-                <div className="space-y-3">
-                  {doctors.map((doctor) => (
-                    <button
-                      key={doctor.id}
-                      onClick={() => setBookingData({ ...bookingData, doctorId: doctor.id })}
-                      className={`w-full rounded-lg border-2 p-4 text-left transition-all hover:border-primary-500 ${bookingData.doctorId === doctor.id
-                          ? "border-primary-500 bg-primary-50"
-                          : "border-neutral-200"
-                        }`}
-                    >
-                      <div className="flex items-center justify-between">
-                        <div>
-                          <div className="font-semibold text-neutral-900">
-                            {doctor.name}
-                          </div>
-                          <div className="mt-1 text-sm text-neutral-600">
-                            {doctor.specialization}
-                          </div>
-                        </div>
-                        {bookingData.doctorId === doctor.id && (
-                          <CheckCircle className="h-6 w-6 text-primary-500" />
-                        )}
-                      </div>
-                    </button>
-                  ))}
-                </div>
-              )}
-
-              {/* Step 3: Date & Time Selection */}
-              {step === 3 && (
-                <div className="space-y-6">
-                  <div>
-                    <label className="mb-2 block text-sm font-medium text-neutral-700">
-                      Дата приема *
                     </label>
-                    <Input
-                      type="date"
-                      value={bookingData.date}
-                      onChange={(e) => setBookingData({ ...bookingData, date: e.target.value })}
-                      min={new Date().toISOString().split("T")[0]}
-                    />
-                  </div>
+                  ))}
+                </div>
+              </div>
 
-                  {bookingData.date && (
-                    <div>
-                      <label className="mb-3 block text-sm font-medium text-neutral-700">
-                        Время приема *
-                      </label>
-                      <div className="grid grid-cols-4 gap-2 sm:grid-cols-6">
-                        {timeSlots.map((time) => (
-                          <button
-                            key={time}
-                            onClick={() => setBookingData({ ...bookingData, time })}
-                            className={`rounded-lg border-2 px-3 py-2 text-sm font-medium transition-all hover:border-primary-500 ${bookingData.time === time
-                                ? "border-primary-500 bg-primary-500 text-white"
-                                : "border-neutral-200 text-neutral-700"
-                              }`}
-                          >
-                            {time}
-                          </button>
-                        ))}
+              {/* Step 2: Date & Time */}
+              <div className="bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-zinc-800 shadow-sm p-6">
+                <div className="flex items-center justify-between mb-4">
+                  <h2 className="text-lg font-semibold flex items-center gap-2">
+                    <span className="bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300 w-6 h-6 rounded-full flex items-center justify-center text-xs">2</span>
+                    Дата и время
+                  </h2>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  {/* Calendar */}
+                  <div>
+                    <div className="flex items-center justify-between mb-4">
+                      <span className="font-medium text-zinc-900 dark:text-white">
+                        {new Date().toLocaleDateString('ru-RU', { month: 'long', year: 'numeric' })}
+                      </span>
+                      <div className="flex gap-1">
+                        <button className="p-1 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded">
+                          <ChevronLeft className="h-5 w-5 text-zinc-600 dark:text-zinc-400" />
+                        </button>
+                        <button className="p-1 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded">
+                          <ChevronRight className="h-5 w-5 text-zinc-600 dark:text-zinc-400" />
+                        </button>
                       </div>
                     </div>
-                  )}
-                </div>
-              )}
 
-              {/* Step 4: Personal Info */}
-              {step === 4 && (
-                <div className="space-y-4">
-                  <div className="grid gap-4 sm:grid-cols-2">
+                    <div className="grid grid-cols-7 gap-1 text-center text-xs mb-2 text-zinc-400">
+                      <div>Пн</div><div>Вт</div><div>Ср</div><div>Чт</div><div>Пт</div><div>Сб</div><div>Вс</div>
+                    </div>
+
+                    <div className="grid grid-cols-7 gap-1 text-center">
+                      {[...Array(7)].map((_, i) => (
+                        <div key={i} className="p-2"></div>
+                      ))}
+                      {[...Array(31)].map((_, i) => {
+                        const day = i + 1;
+                        const isToday = day === 6;
+                        return (
+                          <button
+                            key={day}
+                            className={`p-2 text-sm rounded-lg transition-colors ${isToday
+                                ? "bg-primary text-white shadow-sm"
+                                : "text-zinc-900 dark:text-white hover:bg-zinc-100 dark:hover:bg-zinc-800"
+                              }`}
+                          >
+                            {day}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  {/* Time Slots */}
+                  <div>
+                    <p className="text-sm font-medium text-zinc-900 dark:text-white mb-3">
+                      Доступное время
+                    </p>
+                    <div className="grid grid-cols-2 gap-2">
+                      {timeSlots.map((time) => (
+                        <button
+                          key={time}
+                          onClick={() => setBookingData({ ...bookingData, time })}
+                          className={`px-4 py-2 text-sm rounded-md transition-colors ${bookingData.time === time
+                              ? "bg-primary text-white border border-primary shadow-sm"
+                              : "border border-zinc-200 dark:border-zinc-800 text-zinc-600 dark:text-zinc-300 hover:border-primary hover:text-primary dark:hover:border-primary dark:hover:text-primary"
+                            }`}
+                        >
+                          {time}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Step 3: Patient Details */}
+              <div className="bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-zinc-800 shadow-sm p-6">
+                <div className="flex items-center justify-between mb-6">
+                  <h2 className="text-lg font-semibold flex items-center gap-2">
+                    <span className="bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300 w-6 h-6 rounded-full flex items-center justify-center text-xs">3</span>
+                    Контактные данные
+                  </h2>
+                </div>
+
+                <form onSubmit={handleSubmit} className="space-y-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label className="mb-2 block text-sm font-medium text-neutral-700">
+                      <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">
                         Имя *
                       </label>
                       <Input
@@ -295,11 +277,12 @@ export default function BookingPage() {
                         required
                         value={bookingData.firstName}
                         onChange={(e) => setBookingData({ ...bookingData, firstName: e.target.value })}
-                        placeholder="Ваше имя"
+                        placeholder="Иван"
+                        className="dark:bg-black/30"
                       />
                     </div>
                     <div>
-                      <label className="mb-2 block text-sm font-medium text-neutral-700">
+                      <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">
                         Фамилия *
                       </label>
                       <Input
@@ -307,155 +290,148 @@ export default function BookingPage() {
                         required
                         value={bookingData.lastName}
                         onChange={(e) => setBookingData({ ...bookingData, lastName: e.target.value })}
-                        placeholder="Ваша фамилия"
+                        placeholder="Иванов"
+                        className="dark:bg-black/30"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">
+                        Email *
+                      </label>
+                      <Input
+                        type="email"
+                        required
+                        value={bookingData.email}
+                        onChange={(e) => setBookingData({ ...bookingData, email: e.target.value })}
+                        placeholder="ivan@example.com"
+                        className="dark:bg-black/30"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">
+                        Телефон *
+                      </label>
+                      <Input
+                        type="tel"
+                        required
+                        value={bookingData.phone}
+                        onChange={(e) => setBookingData({ ...bookingData, phone: e.target.value })}
+                        placeholder="+420 123 456 789"
+                        className="dark:bg-black/30"
                       />
                     </div>
                   </div>
 
                   <div>
-                    <label className="mb-2 block text-sm font-medium text-neutral-700">
-                      Телефон *
-                    </label>
-                    <Input
-                      type="tel"
-                      required
-                      value={bookingData.phone}
-                      onChange={(e) => setBookingData({ ...bookingData, phone: e.target.value })}
-                      placeholder="+420 123 456 789"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="mb-2 block text-sm font-medium text-neutral-700">
-                      Email
-                    </label>
-                    <Input
-                      type="email"
-                      value={bookingData.email}
-                      onChange={(e) => setBookingData({ ...bookingData, email: e.target.value })}
-                      placeholder="email@example.com"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="mb-2 block text-sm font-medium text-neutral-700">
-                      Комментарий
+                    <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">
+                      Причина визита
                     </label>
                     <Textarea
                       rows={3}
                       value={bookingData.notes}
                       onChange={(e) => setBookingData({ ...bookingData, notes: e.target.value })}
-                      placeholder="Дополнительная информация (опционально)"
+                      placeholder="Кратко опишите ваши симптомы или причину записи..."
+                      className="dark:bg-black/30"
                     />
                   </div>
+                </form>
+              </div>
+            </div>
 
-                  {/* Summary */}
-                  <Card className="bg-primary-50">
-                    <CardContent className="p-4">
-                      <h3 className="mb-3 font-semibold text-neutral-900">
-                        Детали записи:
-                      </h3>
-                      <div className="space-y-2 text-sm">
-                        <div className="flex justify-between">
-                          <span className="text-neutral-600">Услуга:</span>
-                          <span className="font-medium text-neutral-900">
-                            {selectedService?.name}
-                          </span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="text-neutral-600">Врач:</span>
-                          <span className="font-medium text-neutral-900">
-                            {selectedDoctor?.name}
-                          </span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="text-neutral-600">Дата:</span>
-                          <span className="font-medium text-neutral-900">
-                            {bookingData.date}
-                          </span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="text-neutral-600">Время:</span>
-                          <span className="font-medium text-neutral-900">
-                            {bookingData.time}
-                          </span>
-                        </div>
-                        <div className="mt-3 border-t border-primary-200 pt-3 flex justify-between">
-                          <span className="font-semibold text-neutral-900">Цена:</span>
-                          <span className="text-lg font-bold text-primary-600">
-                            {selectedService?.price} Kč
-                          </span>
+            {/* Sidebar - Booking Summary */}
+            <div className="lg:col-span-4 mt-8 lg:mt-0">
+              <div className="sticky top-24">
+                <div className="bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-zinc-800 shadow-lg overflow-hidden">
+                  <div className="bg-zinc-50 dark:bg-zinc-800/50 p-4 border-b border-zinc-200 dark:border-zinc-800">
+                    <h3 className="font-semibold text-zinc-900 dark:text-white">Детали записи</h3>
+                  </div>
+
+                  <div className="p-6 space-y-6">
+                    <div className="flex gap-4">
+                      <div className="flex-shrink-0">
+                        <div className="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900/40 flex items-center justify-center text-primary">
+                          <User className="h-5 w-5" />
                         </div>
                       </div>
-                    </CardContent>
-                  </Card>
+                      <div>
+                        <p className="text-sm font-medium text-zinc-900 dark:text-white">
+                          {selectedDepartment?.name}
+                        </p>
+                        <p className="text-xs text-zinc-500 dark:text-zinc-400">
+                          {selectedDepartment?.doctor}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="flex gap-4">
+                      <div className="flex-shrink-0">
+                        <div className="w-10 h-10 rounded-full bg-purple-100 dark:bg-purple-900/40 flex items-center justify-center text-purple-600 dark:text-purple-400">
+                          <Calendar className="h-5 w-5" />
+                        </div>
+                      </div>
+                      <div>
+                        <p className="text-sm font-medium text-zinc-900 dark:text-white">
+                          {bookingData.date || "Выберите дату"}
+                        </p>
+                        <p className="text-xs text-zinc-500 dark:text-zinc-400">
+                          {bookingData.time} - {bookingData.time &&
+                            `${parseInt(bookingData.time.split(':')[0]) + 1}:${bookingData.time.split(':')[1]}`
+                          }
+                        </p>
+                      </div>
+                    </div>
+
+                    <hr className="border-zinc-200 dark:border-zinc-800" />
+
+                    <div className="space-y-2">
+                      <div className="flex justify-between text-sm">
+                        <span className="text-zinc-500 dark:text-zinc-400">Консультация</span>
+                        <span className="text-zinc-900 dark:text-white font-medium">1500 Kč</span>
+                      </div>
+                      <div className="flex justify-between text-sm">
+                        <span className="text-zinc-500 dark:text-zinc-400">Запись</span>
+                        <span className="text-zinc-900 dark:text-white font-medium">0 Kč</span>
+                      </div>
+                      <div className="flex justify-between text-base font-semibold pt-2">
+                        <span className="text-zinc-900 dark:text-white">Итого</span>
+                        <span className="text-primary">1500 Kč</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="p-6 pt-0">
+                    <button
+                      onClick={handleSubmit}
+                      disabled={isSubmitting || !bookingData.firstName || !bookingData.lastName || !bookingData.phone || !bookingData.email}
+                      className="w-full bg-primary hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold py-3 px-4 rounded-lg shadow-md flex items-center justify-center gap-2 transition-transform active:scale-[0.98]"
+                    >
+                      <CheckCircle className="h-5 w-5" />
+                      Подтвердить запись
+                    </button>
+                    <p className="text-center text-xs text-zinc-400 dark:text-zinc-500 mt-3">
+                      Оплата производится в клинике после приема
+                    </p>
+                  </div>
                 </div>
-              )}
 
-              {/* Navigation Buttons */}
-              <div className="mt-8 flex justify-between gap-4">
-                {step > 1 && (
-                  <Button
-                    variant="outline"
-                    onClick={prevStep}
-                    className="gap-2"
-                  >
-                    <ArrowLeft className="h-4 w-4" />
-                    Назад
-                  </Button>
-                )}
-
-                {step < 4 ? (
-                  <Button
-                    onClick={nextStep}
-                    disabled={
-                      (step === 1 && !bookingData.serviceId) ||
-                      (step === 2 && !bookingData.doctorId) ||
-                      (step === 3 && (!bookingData.date || !bookingData.time))
-                    }
-                    className="ml-auto gap-2"
-                  >
-                    Далее
-                    <ArrowRight className="h-4 w-4" />
-                  </Button>
-                ) : (
-                  <Button
-                    onClick={handleSubmit}
-                    disabled={
-                      isSubmitting ||
-                      !bookingData.firstName ||
-                      !bookingData.lastName ||
-                      !bookingData.phone
-                    }
-                    className="ml-auto gap-2"
-                  >
-                    {isSubmitting ? (
-                      <>
-                        <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
-                        Отправка...
-                      </>
-                    ) : (
-                      <>
-                        <CheckCircle className="h-4 w-4" />
-                        Подтвердить запись
-                      </>
-                    )}
-                  </Button>
-                )}
+                <div className="mt-6 grid grid-cols-2 gap-4">
+                  <div className="flex items-center gap-2 justify-center p-3 rounded-lg border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900">
+                    <Shield className="h-5 w-5 text-green-500" />
+                    <span className="text-xs font-medium text-zinc-600 dark:text-zinc-400">Защищено</span>
+                  </div>
+                  <div className="flex items-center gap-2 justify-center p-3 rounded-lg border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900">
+                    <ThumbsUp className="h-5 w-5 text-blue-500" />
+                    <span className="text-xs font-medium text-zinc-600 dark:text-zinc-400">Рейтинг 4.9</span>
+                  </div>
+                </div>
               </div>
-
-              {submitStatus === "error" && (
-                <div className="mt-6 flex items-center gap-3 rounded-lg bg-red-50 p-4 text-red-700">
-                  <AlertCircle className="h-5 w-5 flex-shrink-0" />
-                  <p className="text-sm">
-                    Произошла ошибка. Попробуйте позже или позвоните нам.
-                  </p>
-                </div>
-              )}
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         </div>
-      </div>
+      </main>
       <Footer />
     </>
   );

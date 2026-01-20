@@ -5,46 +5,46 @@ import { Calendar, Phone, Star } from "lucide-react";
 
 export function HeroSection() {
   return (
-    <section className="relative overflow-hidden bg-gradient-to-br from-primary-50 via-white to-secondary-50">
-      {/* Background Pattern */}
-      <div className="absolute inset-0 opacity-10">
-        <div className="absolute -right-20 -top-20 h-96 w-96 rounded-full bg-primary-300 blur-3xl" />
-        <div className="absolute -bottom-20 -left-20 h-96 w-96 rounded-full bg-secondary-300 blur-3xl" />
-      </div>
-
-      <div className="container relative mx-auto px-4 py-20 sm:px-6 lg:px-8 lg:py-32">
-        <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">
+    <section className="relative pt-32 pb-16 lg:pt-48 lg:pb-32 overflow-hidden bg-white dark:bg-zinc-950">
+      <div className="container relative mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid gap-12 lg:grid-cols-12 lg:gap-16 items-center">
           {/* Left Column - Text Content */}
-          <div className="flex flex-col justify-center space-y-8">
+          <div className="lg:col-span-6 text-center lg:text-left">
             {/* Badge */}
-            <div className="inline-flex w-fit items-center gap-2 rounded-full bg-accent-100 px-4 py-2 text-sm font-medium text-accent-700">
-              <Star className="h-4 w-4 fill-accent-500 text-accent-500" />
-              <span>15+ лет опыта • 2000+ счастливых пациентов</span>
+            <div className="inline-flex items-center px-3 py-1 rounded-full border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 mb-6">
+              <span className="flex h-2 w-2 rounded-full bg-primary mr-2"></span>
+              <span className="text-xs font-medium text-zinc-600 dark:text-zinc-400 uppercase tracking-wide">
+                15+ лет опыта • 2000+ пациентов
+              </span>
             </div>
 
             {/* Heading */}
-            <div className="space-y-4">
-              <h1 className="text-balance text-4xl font-bold tracking-tight text-neutral-900 sm:text-5xl lg:text-6xl">
+            <div className="space-y-6">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-zinc-900 dark:text-white">
                 Здоровые зубы —{" "}
-                <span className="bg-gradient-to-r from-primary-600 to-secondary-600 bg-clip-text text-transparent">
-                  красивая улыбка!
-                </span>
+                <br className="hidden lg:block" />
+                красивая улыбка!
               </h1>
-              <p className="text-balance text-lg text-neutral-600 sm:text-xl">
+              <p className="text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed max-w-2xl mx-auto lg:mx-0">
                 Современная стоматология в центре Праги. Опытные врачи,
-                безболезненное лечение, гарантия качества.
+                безболезненное лечение и европейское качество.
               </p>
             </div>
 
             {/* CTA Buttons */}
-            <div className="flex flex-col gap-4 sm:flex-row">
-              <Button size="lg" className="gap-2" asChild>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mt-8">
+              <Button size="lg" className="gap-2 shadow-lg shadow-primary/20" asChild>
                 <a href="/booking">
                   <Calendar className="h-5 w-5" />
-                  Записаться на бесплатный осмотр
+                  Записаться на прием
                 </a>
               </Button>
-              <Button size="lg" variant="outline" className="gap-2" asChild>
+              <Button
+                size="lg"
+                variant="outline"
+                className="gap-2 border-zinc-200 dark:border-zinc-700 hover:bg-zinc-50 dark:hover:bg-zinc-800"
+                asChild
+              >
                 <a href="tel:+420123456789">
                   <Phone className="h-5 w-5" />
                   +420 123 456 789
@@ -53,62 +53,53 @@ export function HeroSection() {
             </div>
 
             {/* Features */}
-            <div className="grid grid-cols-2 gap-4 pt-4 sm:grid-cols-3">
-              {[
-                "Без боли",
-                "Гарантия",
-                "Опыт 15+ лет",
-                "Современное оборудование",
-                "Доступные цены",
-                "Рассрочка 0%",
-              ].map((feature) => (
-                <div
-                  key={feature}
-                  className="flex items-center gap-2 text-sm font-medium text-neutral-700"
-                >
-                  <div className="h-2 w-2 rounded-full bg-accent-500" />
-                  {feature}
-                </div>
-              ))}
+            <div className="mt-10 flex items-center justify-center lg:justify-start gap-6 text-zinc-500 dark:text-zinc-500 text-sm font-medium flex-wrap">
+              <div className="flex items-center gap-2">
+                <Star className="h-4 w-4 text-primary fill-primary" />
+                <span>Без боли</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Star className="h-4 w-4 text-primary fill-primary" />
+                <span>Гарантия качества</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Star className="h-4 w-4 text-primary fill-primary" />
+                <span>Опыт 15+ лет</span>
+              </div>
             </div>
           </div>
 
           {/* Right Column - Image/Visual */}
-          <div className="relative">
-            <div className="relative aspect-square overflow-hidden rounded-2xl bg-gradient-to-br from-primary-100 to-secondary-100 shadow-2xl lg:aspect-auto lg:h-full">
+          <div className="lg:col-span-6 relative">
+            <div className="relative rounded-2xl overflow-hidden shadow-2xl border border-zinc-200 dark:border-zinc-800">
+              <div className="absolute inset-0 bg-gradient-to-tr from-primary/10 to-transparent mix-blend-overlay"></div>
               {/* Placeholder for actual image */}
-              <div className="flex h-full items-center justify-center">
-                <div className="text-center">
-                  <div className="mx-auto mb-4 h-32 w-32 rounded-full bg-white/50 backdrop-blur" />
-                  <p className="text-sm text-neutral-600">
-                    Фото клиники / Врача
-                  </p>
-                </div>
-              </div>
-
-              {/* Floating Stats Cards */}
-              <div className="absolute bottom-4 left-4 rounded-lg bg-white p-4 shadow-large">
-                <div className="flex items-center gap-3">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-accent-100">
-                    <Star className="h-6 w-6 text-accent-600" />
-                  </div>
-                  <div>
-                    <div className="text-2xl font-bold text-neutral-900">
-                      4.9
-                    </div>
-                    <div className="text-xs text-neutral-600">
-                      Рейтинг Google
-                    </div>
+              <div className="aspect-square lg:aspect-auto lg:h-full bg-gradient-to-br from-zinc-100 to-zinc-200 dark:from-zinc-800 dark:to-zinc-900">
+                <div className="flex h-full items-center justify-center">
+                  <div className="text-center">
+                    <div className="mx-auto mb-4 h-32 w-32 rounded-full bg-white/50 dark:bg-zinc-700/50 backdrop-blur" />
+                    <p className="text-sm text-zinc-600 dark:text-zinc-400">
+                      Фото клиники / Врача
+                    </p>
                   </div>
                 </div>
               </div>
 
-              <div className="absolute right-4 top-4 rounded-lg bg-white p-4 shadow-large">
+              {/* Floating Stats Cards - Stitch style */}
+              <div className="absolute -bottom-6 -left-6 bg-white dark:bg-zinc-800 p-4 rounded-xl shadow-xl border border-zinc-100 dark:border-zinc-700 hidden md:flex items-center gap-4 animate-bounce" style={{ animationDuration: '3s' }}>
+                <div className="bg-green-100 dark:bg-green-900/30 p-2 rounded-full">
+                  <Star className="h-5 w-5 text-green-600 dark:text-green-400 fill-green-600 dark:fill-green-400" />
+                </div>
+                <div>
+                  <p className="text-sm font-bold text-zinc-900 dark:text-white">4.9 Рейтинг</p>
+                  <p className="text-xs text-zinc-500 dark:text-zinc-400">Google Reviews</p>
+                </div>
+              </div>
+
+              <div className="absolute -top-6 -right-6 bg-white dark:bg-zinc-800 p-4 rounded-xl shadow-xl border border-zinc-100 dark:border-zinc-700 hidden md:block">
                 <div className="text-center">
-                  <div className="text-3xl font-bold text-primary-600">
-                    2000+
-                  </div>
-                  <div className="text-xs text-neutral-600">Пациентов</div>
+                  <div className="text-3xl font-bold text-primary">2000+</div>
+                  <div className="text-xs text-zinc-500 dark:text-zinc-400">Пациентов</div>
                 </div>
               </div>
             </div>
