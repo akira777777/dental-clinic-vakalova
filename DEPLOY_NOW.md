@@ -1,18 +1,18 @@
 # 🚀 DEPLOY NOW - Quick Deployment Guide
 
-**Status**: ✅ READY FOR DEPLOYMENT  
-**Platform**: Vercel (Recommended) or Railway  
+**Status**: ✅ READY FOR DEPLOYMENT
+**Platform**: Vercel (Recommended) or Railway
 **Time**: 5-10 minutes
 
 ---
 
 ## 🎯 PRE-DEPLOYMENT CHECKLIST
 
-✅ All code bugs fixed  
-✅ TypeScript: 0 errors  
-✅ ESLint: 0 errors  
-✅ Build: Compiles successfully  
-✅ Prisma 7 adapter: Installed  
+✅ All code bugs fixed
+✅ TypeScript: 0 errors
+✅ ESLint: 0 errors
+✅ Build: Compiles successfully
+✅ Prisma 7 adapter: Installed
 ✅ Database schema: Ready
 
 ---
@@ -33,6 +33,7 @@ vercel
 ```
 
 Follow prompts:
+
 - Set up project? **Yes**
 - Which scope? **Your account**
 - Link to existing? **No** (new project)
@@ -44,7 +45,7 @@ Follow prompts:
 
 После первого deploy, добавьте переменные в Vercel Dashboard:
 
-1. Go to: https://vercel.com/your-username/dental-clinic-vakalova/settings/environment-variables
+1. Go to: <https://vercel.com/your-username/dental-clinic-vakalova/settings/environment-variables>
 
 2. Add these variables:
 
@@ -56,6 +57,7 @@ CLINIC_EMAIL=your-clinic@email.com
 ```
 
 **Optional (for email)**:
+
 ```
 RESEND_API_KEY=re_xxxxxxxxxxxxx
 EMAIL_FROM=Клиника Татьяна Вакалова <noreply@yourdomain.com>
@@ -110,6 +112,7 @@ railway up
 **IMPORTANT**: База данных создастся автоматически при первом API запросе.
 
 **Что происходит**:
+
 1. Vercel/Railway запускает приложение
 2. Первый запрос к `/api/bookings` или `/admin`
 3. Prisma adapter автоматически создаёт `dev.db`
@@ -158,7 +161,7 @@ Go to: `https://your-site.vercel.app/booking`
 
 ### Get Resend API Key
 
-1. Sign up: https://resend.com
+1. Sign up: <https://resend.com>
 2. Dashboard → API Keys
 3. Create new key
 4. Copy key (starts with `re_`)
@@ -206,11 +209,13 @@ After deployment:
 ### Vercel Analytics
 
 Automatic! Go to:
+
 ```
 https://vercel.com/your-username/dental-clinic-vakalova/analytics
 ```
 
 See:
+
 - Page views
 - Top pages
 - User locations
@@ -219,6 +224,7 @@ See:
 ### Error Tracking
 
 Check logs:
+
 ```
 https://vercel.com/your-username/dental-clinic-vakalova/logs
 ```
@@ -232,6 +238,7 @@ https://vercel.com/your-username/dental-clinic-vakalova/logs
 **Error**: "Cannot find module"
 
 **Solution**:
+
 ```bash
 # Delete .next and node_modules
 rm -rf .next node_modules
@@ -250,6 +257,7 @@ vercel --prod
 **Error**: Can't login to `/admin`
 
 **Solution**: Check environment variables are set:
+
 ```bash
 vercel env ls
 ```
@@ -276,6 +284,7 @@ Should see: `ADMIN_USER` and `ADMIN_PASSWORD`
 ### Update URLs
 
 After domain is verified:
+
 - `src/app/sitemap.ts` - Change `baseUrl`
 - `src/app/layout.tsx` - Change Open Graph URL
 - Redeploy
@@ -313,25 +322,26 @@ railway up
 
 ### Common Questions
 
-**Q: Where is my site?**  
+**Q: Where is my site?**
 A: Check Vercel dashboard or run `vercel ls`
 
-**Q: How to change password?**  
+**Q: How to change password?**
 A: `vercel env rm ADMIN_PASSWORD` → `vercel env add ADMIN_PASSWORD` → `vercel --prod`
 
-**Q: Email not working?**  
+**Q: Email not working?**
 A: Check `RESEND_API_KEY` is set. Emails fail gracefully - forms still work.
 
-**Q: How to update site?**  
+**Q: How to update site?**
 A: Make changes, commit, run `vercel --prod`
 
 ---
 
-## 🎊 CONGRATULATIONS!
+## 🎊 CONGRATULATIONS
 
 Your dental clinic website is now **LIVE** on the internet! 🚀
 
 **Next steps**:
+
 1. Share URL with client
 2. Test all features in production
 3. Setup email notifications (optional)
@@ -341,6 +351,6 @@ Your dental clinic website is now **LIVE** on the internet! 🚀
 
 ---
 
-**Deployment Ready**: ✅ YES  
-**Estimated Time**: 5-10 minutes  
+**Deployment Ready**: ✅ YES
+**Estimated Time**: 5-10 minutes
 **Recommendation**: **DEPLOY NOW!** 🚀
