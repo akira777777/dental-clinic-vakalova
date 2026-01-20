@@ -1,20 +1,20 @@
 "use client";
 
-import { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { 
-  MapPin, 
-  Phone, 
-  Mail, 
-  Clock, 
-  Send, 
-  MessageSquare,
+import {
+  AlertCircle,
   CheckCircle,
-  AlertCircle
+  Clock,
+  Mail,
+  MapPin,
+  MessageSquare,
+  Phone,
+  Send
 } from "lucide-react";
+import { useState } from "react";
 
 export function ContactSection() {
   const [formData, setFormData] = useState({
@@ -46,7 +46,7 @@ export function ContactSection() {
       if (response.ok) {
         setSubmitStatus("success");
         setFormData({ name: "", phone: "", email: "", message: "" });
-        
+
         // Reset success message after 5 seconds
         setTimeout(() => setSubmitStatus("idle"), 5000);
       } else {
@@ -102,7 +102,7 @@ export function ContactSection() {
                   <br />
                   Česká republika
                 </p>
-                
+
                 {/* Interactive Map */}
                 <div className="mt-4 h-48 overflow-hidden rounded-lg border border-neutral-200">
                   <iframe
@@ -116,7 +116,7 @@ export function ContactSection() {
                     title="Карта стоматологической клиники"
                   />
                 </div>
-                
+
                 <a
                   href="https://www.google.com/maps/place/V%C3%A1clavsk%C3%A9+n%C3%A1m.+123,+110+00+Praha+1"
                   target="_blank"
@@ -291,9 +291,9 @@ export function ContactSection() {
                   />
                 </div>
 
-                <Button 
-                  type="submit" 
-                  size="lg" 
+                <Button
+                  type="submit"
+                  size="lg"
                   className="w-full gap-2"
                   disabled={isSubmitting}
                 >
@@ -324,12 +324,12 @@ export function ContactSection() {
           </Card>
         </div>
 
-        {/* WhatsApp Floating Button */}
+        {/* WhatsApp Floating Button - Hidden on mobile where FloatingBookingButton is shown */}
         <a
           href="https://wa.me/420123456789"
           target="_blank"
           rel="noopener noreferrer"
-          className="fixed bottom-6 right-6 z-50 flex h-16 w-16 items-center justify-center rounded-full bg-accent-500 text-white shadow-large transition-transform hover:scale-110 hover:bg-accent-600"
+          className="hidden lg:flex fixed bottom-6 left-6 z-50 h-16 w-16 items-center justify-center rounded-full bg-accent-500 text-white shadow-large transition-transform hover:scale-110 hover:bg-accent-600"
           aria-label="WhatsApp"
         >
           <MessageSquare className="h-7 w-7" />

@@ -122,7 +122,14 @@ const config: Config = {
         "fade-in": "fadeIn 0.6s ease-out",
         "slide-up": "slideUp 0.6s ease-out",
         "slide-down": "slideDown 0.6s ease-out",
+        "slide-in-left": "slideInLeft 0.7s ease-out",
+        "slide-in-right": "slideInRight 0.7s ease-out",
         "scale-in": "scaleIn 0.4s ease-out",
+        "float": "float 3s ease-in-out infinite",
+        "glow": "glow 2s ease-in-out infinite",
+        "shimmer": "shimmer 2s infinite linear",
+        "bounce-slow": "bounce 3s ease-in-out infinite",
+        "pulse-slow": "pulse 3s ease-in-out infinite",
       },
       keyframes: {
         fadeIn: {
@@ -137,9 +144,37 @@ const config: Config = {
           from: { transform: "translateY(-20px)", opacity: "0" },
           to: { transform: "translateY(0)", opacity: "1" },
         },
+        slideInLeft: {
+          from: { transform: "translateX(-30px)", opacity: "0" },
+          to: { transform: "translateX(0)", opacity: "1" },
+        },
+        slideInRight: {
+          from: { transform: "translateX(30px)", opacity: "0" },
+          to: { transform: "translateX(0)", opacity: "1" },
+        },
         scaleIn: {
           from: { transform: "scale(0.95)", opacity: "0" },
           to: { transform: "scale(1)", opacity: "1" },
+        },
+        float: {
+          "0%, 100%": { transform: "translateY(0px)" },
+          "50%": { transform: "translateY(-20px)" },
+        },
+        glow: {
+          "0%, 100%": { boxShadow: "0 0 20px rgba(13, 148, 136, 0.3)" },
+          "50%": { boxShadow: "0 0 40px rgba(13, 148, 136, 0.6)" },
+        },
+        shimmer: {
+          "0%": { backgroundPosition: "-1000px 0" },
+          "100%": { backgroundPosition: "1000px 0" },
+        },
+        bounce: {
+          "0%, 100%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(-10px)" },
+        },
+        pulse: {
+          "0%, 100%": { opacity: "1" },
+          "50%": { opacity: "0.5" },
         },
       },
     },

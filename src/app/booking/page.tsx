@@ -111,7 +111,7 @@ export default function BookingPage() {
   return (
     <>
       <Header />
-      <main className="flex-grow bg-white dark:bg-zinc-950 pt-20 pb-12 lg:pb-12 pb-28">
+      <main className="flex-grow bg-white dark:bg-zinc-950 pt-20 pb-28 lg:pb-12">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           {/* Page Header */}
           <header className="mb-8 text-center sm:text-left">
