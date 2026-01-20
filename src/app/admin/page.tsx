@@ -1,7 +1,7 @@
-import { db } from "@/lib/db";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { CheckCircle, Clock, Mail, Phone, User, Calendar } from "lucide-react";
-import type { Booking, Patient, Doctor, Service, Contact } from "@prisma/client";
+import { db } from "@/lib/db";
+import type { Booking, Contact, Doctor, Patient, Service } from "@prisma/client";
+import { Calendar, CheckCircle, Clock, Mail, Phone, User } from "lucide-react";
 
 type BookingWithRelations = Booking & {
   patient: Patient;
@@ -11,7 +11,7 @@ type BookingWithRelations = Booking & {
 
 export default async function AdminDashboard() {
   // Authentication is handled by middleware.ts
-  
+
   // Fetch data
   const [bookings, contacts, stats] = await Promise.all([
     // Recent bookings (last 30 days)
@@ -179,15 +179,14 @@ export default async function AdminDashboard() {
                       </div>
                       <div>
                         <span
-                          className={`rounded-full px-2 py-1 text-xs font-medium ${
-                            booking.status === "CONFIRMED"
+                          className={`rounded-full px-2 py-1 text-xs font-medium ${booking.status === "CONFIRMED"
                               ? "bg-green-100 text-green-700"
                               : booking.status === "PENDING"
                                 ? "bg-yellow-100 text-yellow-700"
                                 : booking.status === "COMPLETED"
                                   ? "bg-blue-100 text-blue-700"
                                   : "bg-red-100 text-red-700"
-                          }`}
+                            }`}
                         >
                           {booking.status}
                         </span>
@@ -278,7 +277,7 @@ export default async function AdminDashboard() {
 async function TodaysAppointments() {
   const today = new Date();
   today.setHours(0, 0, 0, 0);
-  
+
   const tomorrow = new Date(today);
   tomorrow.setDate(tomorrow.getDate() + 1);
 
