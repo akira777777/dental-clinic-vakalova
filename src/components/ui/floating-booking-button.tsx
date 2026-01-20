@@ -63,7 +63,7 @@ export function FloatingBookingButton() {
           boxShadow: {
             duration: 2,
             repeat: isExpanded ? 0 : Infinity,
-            ease: [0.42, 0, 0.58, 1], // easeInOut
+            ease: [0.42, 0, 0.58, 1] as const, // easeInOut
           },
         }}
       >
@@ -91,7 +91,7 @@ export function FloatingBookingButton() {
           transition={{
             duration: 2,
             repeat: Infinity,
-            ease: [0.42, 0, 0.58, 1], // easeInOut
+            ease: [0.42, 0, 0.58, 1] as const, // easeInOut
           }}
         />
       )}

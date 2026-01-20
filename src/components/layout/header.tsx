@@ -38,7 +38,7 @@ export function Header() {
         hidden: { y: "-100%" },
       }}
       animate={hidden ? "hidden" : "visible"}
-      transition={{ duration: 0.3, ease: [0.42, 0, 0.58, 1] }}
+      transition={{ duration: 0.3, ease: [0.42, 0, 0.58, 1] as const }}
       className={`fixed top-0 z-50 w-full border-b transition-all duration-300 ${isScrolled
         ? "border-zinc-200 dark:border-zinc-800 bg-white/95 dark:bg-zinc-950/95 backdrop-blur-lg shadow-sm"
         : "border-transparent bg-white/80 dark:bg-zinc-950/80 backdrop-blur-md"
