@@ -137,7 +137,7 @@ export function ServicesSection() {
           viewport={{ once: true, margin: "-100px" }}
           className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4"
         >
-          {services.map((service, index) => {
+          {services.map((service) => {
             // Map colors to Stitch palette
             const iconColorMap: Record<string, string> = {
               'text-primary-600 bg-primary-100': 'bg-blue-50 dark:bg-blue-900/20 text-primary dark:text-blue-400 group-hover:bg-primary group-hover:text-white',

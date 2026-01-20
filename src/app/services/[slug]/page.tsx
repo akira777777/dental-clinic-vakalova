@@ -11,6 +11,7 @@ import {
   Phone
 } from "lucide-react";
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
@@ -488,10 +489,12 @@ export default async function ServicePage({
         />
         {/* Hero Image */}
         <div className="relative h-96 overflow-hidden bg-gradient-to-br from-primary-100 to-secondary-100">
-          <img
+          <Image
             src={service.image}
             alt={service.title}
-            className="h-full w-full object-cover opacity-80"
+            fill
+            className="object-cover opacity-80"
+            priority
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
 

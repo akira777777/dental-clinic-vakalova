@@ -1,10 +1,10 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Calendar, Phone, Star, Shield, Award, Heart, Sparkles } from "lucide-react";
-import Link from "next/link";
-import Image from "next/image";
 import { motion } from "framer-motion";
+import { Award, Calendar, Heart, Phone, Shield, Sparkles, Star } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -144,7 +144,7 @@ export function HeroSection() {
                 { icon: Award, text: "Гарантия качества", color: "text-secondary" },
                 { icon: Heart, text: "Забота о пациентах", color: "text-accent" },
                 { icon: Sparkles, text: "15+ лет опыта", color: "text-primary" },
-              ].map((feature, idx) => (
+              ].map((feature) => (
                 <motion.div
                   key={feature.text}
                   variants={itemVariants}

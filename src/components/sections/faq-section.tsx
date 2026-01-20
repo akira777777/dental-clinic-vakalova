@@ -1,7 +1,8 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
-import { Plus, Minus, HelpCircle } from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion";
+import { HelpCircle, Minus, Plus } from "lucide-react";
+import Link from "next/link";
 import { useState } from "react";
 
 const faqs = [
@@ -149,12 +150,12 @@ export function FAQSection() {
             >
               Позвонить нам
             </a>
-            <a
+            <Link
               href="/#contact"
               className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-zinc-900 dark:text-white rounded-lg font-medium hover:border-primary dark:hover:border-primary transition-colors duration-300"
             >
               Написать нам
-            </a>
+            </Link>
           </div>
         </motion.div>
       </div>

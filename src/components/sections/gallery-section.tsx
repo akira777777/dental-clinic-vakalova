@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
-import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { X, ChevronLeft, ChevronRight } from "lucide-react";
+import { Card } from "@/components/ui/card";
+import { ChevronLeft, ChevronRight, X } from "lucide-react";
+import Image from "next/image";
+import { useState } from "react";
 
 type GalleryItem = {
   id: string;
@@ -63,9 +64,9 @@ export function GallerySection() {
   const [filter, setFilter] = useState<string>("all");
 
   const services = ["all", ...Array.from(new Set(galleryItems.map(item => item.service)))];
-  
-  const filteredItems = filter === "all" 
-    ? galleryItems 
+
+  const filteredItems = filter === "all"
+    ? galleryItems
     : galleryItems.filter(item => item.service === filter);
 
   const openLightbox = (item: GalleryItem) => {
@@ -78,12 +79,12 @@ export function GallerySection() {
 
   const navigateLightbox = (direction: "prev" | "next") => {
     if (!selectedItem) return;
-    
+
     const currentIndex = filteredItems.findIndex(item => item.id === selectedItem.id);
-    const newIndex = direction === "next" 
+    const newIndex = direction === "next"
       ? (currentIndex + 1) % filteredItems.length
       : (currentIndex - 1 + filteredItems.length) % filteredItems.length;
-    
+
     setSelectedItem(filteredItems[newIndex]);
   };
 
@@ -130,27 +131,29 @@ export function GallerySection() {
                 <div className="relative h-64 overflow-hidden">
                   <div className="absolute inset-0 grid grid-cols-2">
                     <div className="relative">
-                      <img
+                      <Image
                         src={item.before}
                         alt="До лечения"
-                        className="h-full w-full object-cover"
+                        fill
+                        className="object-cover"
                       />
-                      <div className="absolute bottom-2 left-2 rounded bg-red-500 px-2 py-1 text-xs font-semibold text-white">
+                      <div className="absolute bottom-2 left-2 rounded bg-red-500 px-2 py-1 text-xs font-semibold text-white z-10">
                         ДО
                       </div>
                     </div>
                     <div className="relative">
-                      <img
+                      <Image
                         src={item.after}
                         alt="После лечения"
-                        className="h-full w-full object-cover"
+                        fill
+                        className="object-cover"
                       />
-                      <div className="absolute bottom-2 right-2 rounded bg-accent-500 px-2 py-1 text-xs font-semibold text-white">
+                      <div className="absolute bottom-2 right-2 rounded bg-accent-500 px-2 py-1 text-xs font-semibold text-white z-10">
                         ПОСЛЕ
                       </div>
                     </div>
                   </div>
-                  
+
                   {/* Divider */}
                   <div className="absolute inset-y-0 left-1/2 w-1 -translate-x-1/2 bg-white shadow-lg" />
                 </div>
@@ -215,21 +218,27 @@ export function GallerySection() {
             >
               <div className="grid gap-4 sm:grid-cols-2">
                 <div>
-                  <img
-                    src={selectedItem.before}
-                    alt="До лечения"
-                    className="w-full rounded-lg"
-                  />
+                  <div className="relative w-full aspect-[4/3] rounded-lg overflow-hidden">
+                    <Image
+                      src={selectedItem.before}
+                      alt="До лечения"
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
                   <div className="mt-2 text-center text-sm font-semibold text-white">
                     ДО
                   </div>
                 </div>
                 <div>
-                  <img
-                    src={selectedItem.after}
-                    alt="После лечения"
-                    className="w-full rounded-lg"
-                  />
+                  <div className="relative w-full aspect-[4/3] rounded-lg overflow-hidden">
+                    <Image
+                      src={selectedItem.after}
+                      alt="После лечения"
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
                   <div className="mt-2 text-center text-sm font-semibold text-white">
                     ПОСЛЕ
                   </div>

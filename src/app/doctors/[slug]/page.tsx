@@ -13,6 +13,7 @@ import {
   Users
 } from "lucide-react";
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
@@ -187,11 +188,13 @@ export default async function DoctorPage({
               {/* Doctor Photo */}
               <div className="lg:col-span-1">
                 <div className="relative">
-                  <div className="aspect-square w-full max-w-sm mx-auto rounded-2xl overflow-hidden ring-4 ring-white dark:ring-zinc-800 shadow-xl">
-                    <img
+                  <div className="aspect-square w-full max-w-sm mx-auto rounded-2xl overflow-hidden ring-4 ring-white dark:ring-zinc-800 shadow-xl relative">
+                    <Image
                       src={doctor.image}
                       alt={doctor.name}
-                      className="h-full w-full object-cover"
+                      fill
+                      className="object-cover"
+                      priority
                     />
                   </div>
                   {doctor.rating >= 4.9 && (

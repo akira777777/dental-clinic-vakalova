@@ -1,10 +1,10 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Menu, Phone, X, Sparkles } from "lucide-react";
+import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "framer-motion";
+import { Menu, Phone, Sparkles, X } from "lucide-react";
 import Link from "next/link";
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "framer-motion";
+import { useState } from "react";
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -39,11 +39,10 @@ export function Header() {
       }}
       animate={hidden ? "hidden" : "visible"}
       transition={{ duration: 0.3, ease: "easeInOut" }}
-      className={`fixed top-0 z-50 w-full border-b transition-all duration-300 ${
-        isScrolled
+      className={`fixed top-0 z-50 w-full border-b transition-all duration-300 ${isScrolled
           ? "border-zinc-200 dark:border-zinc-800 bg-white/95 dark:bg-zinc-950/95 backdrop-blur-lg shadow-sm"
           : "border-transparent bg-white/80 dark:bg-zinc-950/80 backdrop-blur-md"
-      }`}
+        }`}
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
