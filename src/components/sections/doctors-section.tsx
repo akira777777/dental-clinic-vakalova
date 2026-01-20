@@ -1,11 +1,13 @@
 import { Button } from "@/components/ui/button";
 import { Star } from "lucide-react";
+import Link from "next/link";
 
 const doctors = [
   {
     name: "Татьяна Вакалова",
     role: "Главный врач, стоматолог-терапевт",
     experience: "15 лет опыта",
+    slug: "tatyana-vakalova",
     education: [
       "Карлов университет, Прага",
       "Сертификация в эндодонтии",
@@ -23,6 +25,7 @@ const doctors = [
     name: "Петр Новак",
     role: "Стоматолог-хирург, имплантолог",
     experience: "12 лет опыта",
+    slug: "petr-novak",
     education: [
       "Масариков университет, Брно",
       "Сертификация Nobel Biocare",
@@ -40,6 +43,7 @@ const doctors = [
     name: "Анна Черна",
     role: "Стоматолог-ортопед",
     experience: "10 лет опыта",
+    slug: "anna-cherna",
     education: [
       "Карлов университет, Прага",
       "Специализация в протезировании",
@@ -137,12 +141,16 @@ export function DoctorsSection() {
 
               {/* Action Buttons */}
               <div className="mt-auto w-full grid grid-cols-2 gap-3">
-                <Button variant="outline" className="text-sm" size="sm">
-                  Профиль
-                </Button>
-                <Button className="text-sm shadow-sm" size="sm">
-                  Записаться
-                </Button>
+                <Link href={`/doctors/${doctor.slug}`} className="w-full">
+                  <Button variant="outline" className="text-sm w-full" size="sm">
+                    Профиль
+                  </Button>
+                </Link>
+                <Link href="/booking" className="w-full">
+                  <Button className="text-sm shadow-sm w-full" size="sm">
+                    Записаться
+                  </Button>
+                </Link>
               </div>
             </div>
           ))}

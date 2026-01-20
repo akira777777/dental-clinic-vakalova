@@ -2,12 +2,13 @@
 
 import { Button } from "@/components/ui/button";
 import { Calendar, Phone, Star } from "lucide-react";
+import Link from "next/link";
 
 export function HeroSection() {
   return (
-    <section className="relative pt-32 pb-16 lg:pt-48 lg:pb-32 overflow-hidden bg-white dark:bg-zinc-950">
+    <section className="relative pt-24 pb-12 sm:pt-32 sm:pb-16 lg:pt-48 lg:pb-32 overflow-hidden bg-white dark:bg-zinc-950">
       <div className="container relative mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid gap-12 lg:grid-cols-12 lg:gap-16 items-center">
+        <div className="grid gap-8 sm:gap-12 lg:grid-cols-12 lg:gap-16 items-center">
           {/* Left Column - Text Content */}
           <div className="lg:col-span-6 text-center lg:text-left">
             {/* Badge */}
@@ -19,13 +20,13 @@ export function HeroSection() {
             </div>
 
             {/* Heading */}
-            <div className="space-y-6">
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-zinc-900 dark:text-white">
+            <div className="space-y-4 sm:space-y-6">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-zinc-900 dark:text-white leading-tight">
                 Здоровые зубы —{" "}
-                <br className="hidden lg:block" />
+                <br className="hidden sm:block" />
                 красивая улыбка!
               </h1>
-              <p className="text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed max-w-2xl mx-auto lg:mx-0">
+              <p className="text-base sm:text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed max-w-2xl mx-auto lg:mx-0">
                 Современная стоматология в центре Праги. Опытные врачи,
                 безболезненное лечение и европейское качество.
               </p>
@@ -33,12 +34,12 @@ export function HeroSection() {
 
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mt-8">
-              <Button size="lg" className="gap-2 shadow-lg shadow-primary/20" asChild>
-                <a href="/booking">
+              <Link href="/booking">
+                <Button size="lg" className="gap-2 shadow-lg shadow-primary/20">
                   <Calendar className="h-5 w-5" />
                   Записаться на прием
-                </a>
-              </Button>
+                </Button>
+              </Link>
               <Button
                 size="lg"
                 variant="outline"
@@ -53,7 +54,7 @@ export function HeroSection() {
             </div>
 
             {/* Features */}
-            <div className="mt-10 flex items-center justify-center lg:justify-start gap-6 text-zinc-500 dark:text-zinc-500 text-sm font-medium flex-wrap">
+            <div className="mt-8 sm:mt-10 flex items-center justify-center lg:justify-start gap-4 sm:gap-6 text-zinc-500 dark:text-zinc-500 text-xs sm:text-sm font-medium flex-wrap">
               <div className="flex items-center gap-2">
                 <Star className="h-4 w-4 text-primary fill-primary" />
                 <span>Без боли</span>
@@ -70,11 +71,11 @@ export function HeroSection() {
           </div>
 
           {/* Right Column - Image/Visual */}
-          <div className="lg:col-span-6 relative">
+          <div className="lg:col-span-6 relative mt-8 sm:mt-0">
             <div className="relative rounded-2xl overflow-hidden shadow-2xl border border-zinc-200 dark:border-zinc-800">
               <div className="absolute inset-0 bg-gradient-to-tr from-primary/10 to-transparent mix-blend-overlay"></div>
               {/* Placeholder for actual image */}
-              <div className="aspect-square lg:aspect-auto lg:h-full bg-gradient-to-br from-zinc-100 to-zinc-200 dark:from-zinc-800 dark:to-zinc-900">
+              <div className="aspect-[4/3] sm:aspect-square lg:aspect-auto lg:h-full bg-gradient-to-br from-zinc-100 to-zinc-200 dark:from-zinc-800 dark:to-zinc-900">
                 <div className="flex h-full items-center justify-center">
                   <div className="text-center">
                     <div className="mx-auto mb-4 h-32 w-32 rounded-full bg-white/50 dark:bg-zinc-700/50 backdrop-blur" />

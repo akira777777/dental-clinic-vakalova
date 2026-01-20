@@ -1,3 +1,5 @@
+import { Footer } from "@/components/layout/footer";
+import { Header } from "@/components/layout/header";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import {
@@ -8,25 +10,25 @@ import {
   DollarSign,
   Phone
 } from "lucide-react";
+import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import type { Metadata } from "next";
 
 // Generate metadata for SEO
-export async function generateMetadata({ 
-  params 
-}: { 
-  params: Promise<{ slug: string }> 
+export async function generateMetadata({
+  params
+}: {
+  params: Promise<{ slug: string }>
 }): Promise<Metadata> {
   const { slug } = await params;
   const service = servicesData[slug as keyof typeof servicesData];
-  
+
   if (!service) {
     return {
       title: "Услуга не найдена",
     };
   }
-  
+
   return {
     title: `${service.title} - Клиника Татьяна Вакалова | ${service.price}`,
     description: service.description,
@@ -194,14 +196,269 @@ const servicesData = {
       },
     ],
   },
+  "professionalnaya-chistka": {
+    title: "Профессиональная чистка",
+    description: "Ультразвуковая чистка зубов и Air Flow для удаления налета и камня. Здоровые зубы и свежее дыхание.",
+    price: "От 1200 Kč",
+    duration: "45-60 минут",
+    category: "Профилактика",
+    image: "https://placehold.co/1200x600/06b6d4/ffffff?text=Профессиональная+чистка",
+    benefits: [
+      "Удаление зубного камня и налета",
+      "Полировка зубов пастами премиум-класса",
+      "Профилактика кариеса и воспаления десен",
+      "Свежее дыхание на долгое время",
+      "Безболезненно и комфортно",
+    ],
+    process: [
+      {
+        step: 1,
+        title: "Осмотр",
+        description: "Оценка состояния полости рта",
+      },
+      {
+        step: 2,
+        title: "Ультразвуковая чистка",
+        description: "Удаление зубного камня ультразвуком",
+      },
+      {
+        step: 3,
+        title: "Air Flow",
+        description: "Удаление налета и пигментации аппаратом Air Flow",
+      },
+      {
+        step: 4,
+        title: "Полировка и фторирование",
+        description: "Полировка зубов и укрепление эмали фтором",
+      },
+    ],
+    faq: [
+      {
+        question: "Как часто нужно делать чистку?",
+        answer: "Рекомендуется проводить профессиональную чистку каждые 6 месяцев для поддержания здоровья зубов и десен.",
+      },
+      {
+        question: "Больно ли делать чистку?",
+        answer: "Процедура практически безболезненна. При повышенной чувствительности возможна местная анестезия.",
+      },
+      {
+        question: "Можно ли есть после чистки?",
+        answer: "Рекомендуется воздержаться от еды и напитков в течение 30 минут после процедуры.",
+      },
+    ],
+  },
+  "protezirovanie": {
+    title: "Протезирование",
+    description: "Керамические коронки, виниры, мосты. Восстановление эстетики и функции зубного ряда.",
+    price: "От 8000 Kč",
+    duration: "2-3 визита",
+    category: "Ортопедия",
+    image: "https://placehold.co/1200x600/0ea5e9/ffffff?text=Протезирование",
+    benefits: [
+      "Керамика E-max - максимальная эстетика",
+      "Компьютерное моделирование улыбки",
+      "Точная посадка протезов",
+      "Гарантия 5 лет на коронки",
+      "Индивидуальный подбор цвета",
+    ],
+    process: [
+      {
+        step: 1,
+        title: "Консультация и план лечения",
+        description: "3D-моделирование будущей улыбки",
+      },
+      {
+        step: 2,
+        title: "Подготовка зубов",
+        description: "Обточка зубов, снятие слепков",
+      },
+      {
+        step: 3,
+        title: "Временные протезы",
+        description: "Установка временных коронок/виниров",
+      },
+      {
+        step: 4,
+        title: "Установка постоянных протезов",
+        description: "Примерка и фиксация керамических протезов",
+      },
+    ],
+    faq: [
+      {
+        question: "Чем керамика лучше металлокерамики?",
+        answer: "Керамика E-max не содержит металла, выглядит естественно, не вызывает аллергии и служит дольше.",
+      },
+      {
+        question: "Сколько служат керамические коронки?",
+        answer: "При правильном уходе керамические коронки служат 15-20 лет. Гарантия 5 лет.",
+      },
+      {
+        question: "Можно ли ставить коронки на передние зубы?",
+        answer: "Да! Керамические коронки идеальны для передних зубов - они неотличимы от настоящих зубов.",
+      },
+    ],
+  },
+  "khirurgiya": {
+    title: "Хирургия",
+    description: "Удаление зубов мудрости, резекция верхушки корня. Опытные хирурги, безболезненно.",
+    price: "От 2000 Kč",
+    duration: "30-90 минут",
+    category: "Хирургия",
+    image: "https://placehold.co/1200x600/10b981/ffffff?text=Хирургия",
+    benefits: [
+      "Опытные хирурги с европейским образованием",
+      "Современная анестезия - без боли",
+      "3D-томография для точной диагностики",
+      "Минимальная травматичность",
+      "Быстрое восстановление",
+    ],
+    process: [
+      {
+        step: 1,
+        title: "Диагностика",
+        description: "Осмотр, рентген или 3D-томография",
+      },
+      {
+        step: 2,
+        title: "Анестезия",
+        description: "Современная безболезненная анестезия",
+      },
+      {
+        step: 3,
+        title: "Операция",
+        description: "Атравматичное удаление зуба или хирургическое вмешательство",
+      },
+      {
+        step: 4,
+        title: "Рекомендации",
+        description: "Назначение препаратов, контрольный осмотр",
+      },
+    ],
+    faq: [
+      {
+        question: "Больно ли удалять зуб мудрости?",
+        answer: "Нет! Современная анестезия полностью исключает боль во время операции.",
+      },
+      {
+        question: "Сколько длится восстановление?",
+        answer: "Обычно 3-7 дней. Мы даём подробные рекомендации для быстрого заживления.",
+      },
+      {
+        question: "Когда можно ставить имплант после удаления?",
+        answer: "Одномоментная имплантация возможна сразу. В остальных случаях - через 2-3 месяца.",
+      },
+    ],
+  },
+  "detskaya-stomatologiya": {
+    title: "Детская стоматология",
+    description: "Заботливое лечение детских зубов. Игровая форма приема, никакого страха у ребенка.",
+    price: "От 800 Kč",
+    duration: "30-45 минут",
+    category: "Детская",
+    image: "https://placehold.co/1200x600/06b6d4/ffffff?text=Детская+стоматология",
+    benefits: [
+      "Игровая форма приема - ребенку интересно",
+      "Опытные детские стоматологи",
+      "Безопасные материалы для детей",
+      "Формирование правильного отношения к зубам",
+      "Подарки для маленьких пациентов",
+    ],
+    process: [
+      {
+        step: 1,
+        title: "Знакомство",
+        description: "Знакомство с врачом в игровой форме",
+      },
+      {
+        step: 2,
+        title: "Осмотр",
+        description: "Бережный осмотр полости рта",
+      },
+      {
+        step: 3,
+        title: "Лечение",
+        description: "Лечение кариеса с мультфильмами и игрушками",
+      },
+      {
+        step: 4,
+        title: "Награда",
+        description: "Подарок за храбрость и рекомендации родителям",
+      },
+    ],
+    faq: [
+      {
+        question: "С какого возраста принимаете детей?",
+        answer: "Мы принимаем детей с первого зуба! Рекомендуется первый визит в 1 год.",
+      },
+      {
+        question: "Ребенок боится стоматолога. Что делать?",
+        answer: "Наши врачи умеют находить подход к детям. Первый визит - знакомство без лечения.",
+      },
+      {
+        question: "Нужно ли лечить молочные зубы?",
+        answer: "Да! Кариес молочных зубов влияет на постоянные зубы и общее здоровье ребенка.",
+      },
+    ],
+  },
+  "parodontologiya": {
+    title: "Пародонтология",
+    description: "Лечение десен и профилактика пародонтита. Сохраняем здоровье полости рта.",
+    price: "От 1500 Kč",
+    duration: "60-90 минут",
+    category: "Пародонтология",
+    image: "https://placehold.co/1200x600/0ea5e9/ffffff?text=Пародонтология",
+    benefits: [
+      "Комплексное лечение заболеваний десен",
+      "Современные методы лечения пародонтита",
+      "Профилактика потери зубов",
+      "Устранение кровоточивости десен",
+      "Долгосрочный результат",
+    ],
+    process: [
+      {
+        step: 1,
+        title: "Диагностика",
+        description: "Оценка состояния десен и пародонта",
+      },
+      {
+        step: 2,
+        title: "Профессиональная чистка",
+        description: "Удаление поддесневых отложений",
+      },
+      {
+        step: 3,
+        title: "Лечение",
+        description: "Медикаментозная терапия, кюретаж пародонтальных карманов",
+      },
+      {
+        step: 4,
+        title: "Поддерживающая терапия",
+        description: "Регулярные профилактические осмотры",
+      },
+    ],
+    faq: [
+      {
+        question: "Почему кровоточат десны?",
+        answer: "Основная причина - зубной налет и камень. Это начальная стадия пародонтита.",
+      },
+      {
+        question: "Можно ли вылечить пародонтит?",
+        answer: "На ранних стадиях - да, полностью. На поздних - можно остановить развитие болезни.",
+      },
+      {
+        question: "Как часто нужно ходить к пародонтологу?",
+        answer: "Рекомендуется посещение каждые 3-6 месяцев для профилактики и поддержания здоровья десен.",
+      },
+    ],
+  },
 };
 
 type ServiceSlug = keyof typeof servicesData;
 
-export default async function ServicePage({ 
-  params 
-}: { 
-  params: Promise<{ slug: string }> 
+export default async function ServicePage({
+  params
+}: {
+  params: Promise<{ slug: string }>
 }) {
   const { slug: slugParam } = await params;
   const slug = slugParam as ServiceSlug;
@@ -221,206 +478,212 @@ export default async function ServicePage({
   };
 
   return (
-    <div className="min-h-screen">
-      {/* JSON-LD Structured Data */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-      />
-      {/* Hero Image */}
-      <div className="relative h-96 overflow-hidden bg-gradient-to-br from-primary-100 to-secondary-100">
-        <img
-          src={service.image}
-          alt={service.title}
-          className="h-full w-full object-cover opacity-80"
+    <>
+      <Header />
+      <div className="min-h-screen">
+        {/* JSON-LD Structured Data */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+        {/* Hero Image */}
+        <div className="relative h-96 overflow-hidden bg-gradient-to-br from-primary-100 to-secondary-100">
+          <img
+            src={service.image}
+            alt={service.title}
+            className="h-full w-full object-cover opacity-80"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
 
-        <div className="container absolute inset-x-0 bottom-0 mx-auto px-4 pb-12 sm:px-6 lg:px-8">
-          <Link href="/#services">
-            <Button variant="ghost" className="mb-4 text-white hover:bg-white/20">
-              <ArrowLeft className="mr-2 h-4 w-4" />
-              Назад к услугам
-            </Button>
-          </Link>
+          <div className="container absolute inset-x-0 bottom-0 mx-auto px-4 pb-12 sm:px-6 lg:px-8">
+            <Link href="/#services">
+              <Button variant="ghost" className="mb-4 text-white hover:bg-white/20">
+                <ArrowLeft className="mr-2 h-4 w-4" />
+                Назад к услугам
+              </Button>
+            </Link>
 
-          <h1 className="mb-4 text-4xl font-bold text-white sm:text-5xl">
-            {service.title}
-          </h1>
-          <p className="max-w-2xl text-lg text-white/90">
-            {service.description}
-          </p>
-        </div>
-      </div>
-
-      <div className="container mx-auto px-4 py-16 sm:px-6 lg:px-8">
-        <div className="grid gap-12 lg:grid-cols-3">
-          {/* Main Content */}
-          <div className="lg:col-span-2 space-y-12">
-            {/* Key Info */}
-            <div className="grid gap-4 sm:grid-cols-3">
-              <Card>
-                <CardContent className="flex items-center gap-3 p-4">
-                  <DollarSign className="h-8 w-8 text-primary-500" />
-                  <div>
-                    <div className="text-xs text-neutral-600">Цена</div>
-                    <div className="font-bold text-neutral-900">{service.price}</div>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardContent className="flex items-center gap-3 p-4">
-                  <Clock className="h-8 w-8 text-secondary-500" />
-                  <div>
-                    <div className="text-xs text-neutral-600">Длительность</div>
-                    <div className="font-bold text-neutral-900">{service.duration}</div>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardContent className="flex items-center gap-3 p-4">
-                  <CheckCircle className="h-8 w-8 text-accent-500" />
-                  <div>
-                    <div className="text-xs text-neutral-600">Категория</div>
-                    <div className="font-bold text-neutral-900">{service.category}</div>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-
-            {/* Benefits */}
-            <div>
-              <h2 className="mb-6 text-2xl font-bold text-neutral-900">
-                Преимущества
-              </h2>
-              <div className="space-y-3">
-                {service.benefits.map((benefit, idx) => (
-                  <div key={idx} className="flex items-start gap-3">
-                    <CheckCircle className="mt-0.5 h-5 w-5 flex-shrink-0 text-accent-500" />
-                    <p className="text-neutral-700">{benefit}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Process */}
-            <div>
-              <h2 className="mb-6 text-2xl font-bold text-neutral-900">
-                Как проходит процедура
-              </h2>
-              <div className="space-y-4">
-                {service.process.map((item) => (
-                  <Card key={item.step}>
-                    <CardContent className="flex gap-4 p-6">
-                      <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-primary-100 text-lg font-bold text-primary-700">
-                        {item.step}
-                      </div>
-                      <div>
-                        <h3 className="mb-1 font-semibold text-neutral-900">
-                          {item.title}
-                        </h3>
-                        <p className="text-sm text-neutral-600">
-                          {item.description}
-                        </p>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-            </div>
-
-            {/* FAQ */}
-            <div>
-              <h2 className="mb-6 text-2xl font-bold text-neutral-900">
-                Часто задаваемые вопросы
-              </h2>
-              <div className="space-y-4">
-                {service.faq.map((item, idx) => (
-                  <Card key={idx}>
-                    <CardContent className="p-6">
-                      <h3 className="mb-2 font-semibold text-neutral-900">
-                        {item.question}
-                      </h3>
-                      <p className="text-sm text-neutral-700">{item.answer}</p>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-            </div>
+            <h1 className="mb-4 text-4xl font-bold text-white sm:text-5xl">
+              {service.title}
+            </h1>
+            <p className="max-w-2xl text-lg text-white/90">
+              {service.description}
+            </p>
           </div>
+        </div>
 
-          {/* Sidebar */}
-          <div className="space-y-6">
-            {/* CTA Card */}
-            <Card className="sticky top-24 bg-gradient-to-br from-primary-50 to-secondary-50">
-              <CardContent className="p-6">
-                <h3 className="mb-4 text-xl font-bold text-neutral-900">
-                  Записаться на прием
-                </h3>
-                <p className="mb-6 text-sm text-neutral-700">
-                  Оставьте заявку, и мы перезвоним вам в течение 15 минут
-                </p>
+        <div className="container mx-auto px-4 py-16 sm:px-6 lg:px-8">
+          <div className="grid gap-12 lg:grid-cols-3">
+            {/* Main Content */}
+            <div className="lg:col-span-2 space-y-12">
+              {/* Key Info */}
+              <div className="grid gap-4 sm:grid-cols-3">
+                <Card>
+                  <CardContent className="flex items-center gap-3 p-4">
+                    <DollarSign className="h-8 w-8 text-primary-500" />
+                    <div>
+                      <div className="text-xs text-neutral-600">Цена</div>
+                      <div className="font-bold text-neutral-900">{service.price}</div>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card>
+                  <CardContent className="flex items-center gap-3 p-4">
+                    <Clock className="h-8 w-8 text-secondary-500" />
+                    <div>
+                      <div className="text-xs text-neutral-600">Длительность</div>
+                      <div className="font-bold text-neutral-900">{service.duration}</div>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card>
+                  <CardContent className="flex items-center gap-3 p-4">
+                    <CheckCircle className="h-8 w-8 text-accent-500" />
+                    <div>
+                      <div className="text-xs text-neutral-600">Категория</div>
+                      <div className="font-bold text-neutral-900">{service.category}</div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+
+              {/* Benefits */}
+              <div>
+                <h2 className="mb-6 text-2xl font-bold text-neutral-900">
+                  Преимущества
+                </h2>
                 <div className="space-y-3">
-                  <Button size="lg" className="w-full gap-2">
-                    <Calendar className="h-4 w-4" />
-                    Онлайн-запись
-                  </Button>
-                  <Button
-                    size="lg"
-                    variant="outline"
-                    className="w-full gap-2"
-                    asChild
-                  >
-                    <a href="tel:+420123456789">
-                      <Phone className="h-4 w-4" />
-                      +420 123 456 789
-                    </a>
-                  </Button>
+                  {service.benefits.map((benefit, idx) => (
+                    <div key={idx} className="flex items-start gap-3">
+                      <CheckCircle className="mt-0.5 h-5 w-5 flex-shrink-0 text-accent-500" />
+                      <p className="text-neutral-700">{benefit}</p>
+                    </div>
+                  ))}
                 </div>
-                <p className="mt-4 text-center text-xs text-neutral-600">
-                  Или напишите в{" "}
-                  <a
-                    href="https://wa.me/420123456789"
-                    className="font-medium text-accent-600 hover:underline"
-                  >
-                    WhatsApp
-                  </a>
-                </p>
-              </CardContent>
-            </Card>
+              </div>
 
-            {/* Guarantee Card */}
-            <Card>
-              <CardContent className="p-6">
-                <h3 className="mb-4 text-lg font-bold text-neutral-900">
-                  Наши гарантии
-                </h3>
-                <ul className="space-y-3 text-sm text-neutral-700">
-                  <li className="flex gap-2">
-                    <CheckCircle className="h-5 w-5 flex-shrink-0 text-accent-500" />
-                    <span>Гарантия на все услуги</span>
-                  </li>
-                  <li className="flex gap-2">
-                    <CheckCircle className="h-5 w-5 flex-shrink-0 text-accent-500" />
-                    <span>Бесплатный повторный осмотр</span>
-                  </li>
-                  <li className="flex gap-2">
-                    <CheckCircle className="h-5 w-5 flex-shrink-0 text-accent-500" />
-                    <span>Страхование ответственности</span>
-                  </li>
-                  <li className="flex gap-2">
-                    <CheckCircle className="h-5 w-5 flex-shrink-0 text-accent-500" />
-                    <span>Сертифицированные материалы</span>
-                  </li>
-                </ul>
-              </CardContent>
-            </Card>
+              {/* Process */}
+              <div>
+                <h2 className="mb-6 text-2xl font-bold text-neutral-900">
+                  Как проходит процедура
+                </h2>
+                <div className="space-y-4">
+                  {service.process.map((item) => (
+                    <Card key={item.step}>
+                      <CardContent className="flex gap-4 p-6">
+                        <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-primary-100 text-lg font-bold text-primary-700">
+                          {item.step}
+                        </div>
+                        <div>
+                          <h3 className="mb-1 font-semibold text-neutral-900">
+                            {item.title}
+                          </h3>
+                          <p className="text-sm text-neutral-600">
+                            {item.description}
+                          </p>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              </div>
+
+              {/* FAQ */}
+              <div>
+                <h2 className="mb-6 text-2xl font-bold text-neutral-900">
+                  Часто задаваемые вопросы
+                </h2>
+                <div className="space-y-4">
+                  {service.faq.map((item, idx) => (
+                    <Card key={idx}>
+                      <CardContent className="p-6">
+                        <h3 className="mb-2 font-semibold text-neutral-900">
+                          {item.question}
+                        </h3>
+                        <p className="text-sm text-neutral-700">{item.answer}</p>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Sidebar */}
+            <div className="space-y-6">
+              {/* CTA Card */}
+              <Card className="sticky top-24 bg-gradient-to-br from-primary-50 to-secondary-50">
+                <CardContent className="p-6">
+                  <h3 className="mb-4 text-xl font-bold text-neutral-900">
+                    Записаться на прием
+                  </h3>
+                  <p className="mb-6 text-sm text-neutral-700">
+                    Оставьте заявку, и мы перезвоним вам в течение 15 минут
+                  </p>
+                  <div className="space-y-3">
+                    <Link href="/booking" className="block">
+                      <Button size="lg" className="w-full gap-2">
+                        <Calendar className="h-4 w-4" />
+                        Онлайн-запись
+                      </Button>
+                    </Link>
+                    <Button
+                      size="lg"
+                      variant="outline"
+                      className="w-full gap-2"
+                      asChild
+                    >
+                      <a href="tel:+420123456789">
+                        <Phone className="h-4 w-4" />
+                        +420 123 456 789
+                      </a>
+                    </Button>
+                  </div>
+                  <p className="mt-4 text-center text-xs text-neutral-600">
+                    Или напишите в{" "}
+                    <a
+                      href="https://wa.me/420123456789"
+                      className="font-medium text-accent-600 hover:underline"
+                    >
+                      WhatsApp
+                    </a>
+                  </p>
+                </CardContent>
+              </Card>
+
+              {/* Guarantee Card */}
+              <Card>
+                <CardContent className="p-6">
+                  <h3 className="mb-4 text-lg font-bold text-neutral-900">
+                    Наши гарантии
+                  </h3>
+                  <ul className="space-y-3 text-sm text-neutral-700">
+                    <li className="flex gap-2">
+                      <CheckCircle className="h-5 w-5 flex-shrink-0 text-accent-500" />
+                      <span>Гарантия на все услуги</span>
+                    </li>
+                    <li className="flex gap-2">
+                      <CheckCircle className="h-5 w-5 flex-shrink-0 text-accent-500" />
+                      <span>Бесплатный повторный осмотр</span>
+                    </li>
+                    <li className="flex gap-2">
+                      <CheckCircle className="h-5 w-5 flex-shrink-0 text-accent-500" />
+                      <span>Страхование ответственности</span>
+                    </li>
+                    <li className="flex gap-2">
+                      <CheckCircle className="h-5 w-5 flex-shrink-0 text-accent-500" />
+                      <span>Сертифицированные материалы</span>
+                    </li>
+                  </ul>
+                </CardContent>
+              </Card>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+      <Footer />
+    </>
   );
 }
 

@@ -56,9 +56,11 @@ export function Header() {
                 +420 123 456 789
               </span>
             </div>
-            <Button size="sm" asChild className="shadow-sm">
-              <a href="/booking">Записаться</a>
-            </Button>
+            <Link href="/booking">
+              <Button size="sm" className="shadow-sm">
+                Записаться
+              </Button>
+            </Link>
           </div>
 
           {/* Mobile Menu Button */}
@@ -91,9 +93,15 @@ export function Header() {
               ))}
               <div className="flex items-center gap-2 pt-2 text-sm border-t border-zinc-100 dark:border-zinc-800">
                 <Phone className="h-4 w-4 text-primary" />
-                <span className="font-medium text-zinc-900 dark:text-white">+420 123 456 789</span>
+                <a href="tel:+420123456789" className="font-medium text-zinc-900 dark:text-white hover:text-primary transition-colors">
+                  +420 123 456 789
+                </a>
               </div>
-              <Button className="w-full shadow-sm">Записаться на прием</Button>
+              <Link href="/booking" className="w-full">
+                <Button className="w-full shadow-sm">
+                  Записаться на прием
+                </Button>
+              </Link>
             </nav>
           </div>
         )}

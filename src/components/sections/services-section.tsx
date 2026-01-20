@@ -9,6 +9,7 @@ import {
   Smile,
   Sparkles
 } from "lucide-react";
+import Link from "next/link";
 
 const services = [
   {
@@ -17,6 +18,7 @@ const services = [
     description: "Качественное лечение кариеса с использованием современных материалов. Безболезненно и быстро.",
     price: "От 1500 Kč",
     color: "text-primary-600 bg-primary-100",
+    slug: "lechenie-kariesa",
   },
   {
     icon: Sparkles,
@@ -24,6 +26,7 @@ const services = [
     description: "Ультразвуковая чистка зубов и Air Flow для удаления налета и камня. Здоровые зубы и свежее дыхание.",
     price: "От 1200 Kč",
     color: "text-secondary-600 bg-secondary-100",
+    slug: "professionalnaya-chistka",
   },
   {
     icon: Smile,
@@ -31,6 +34,7 @@ const services = [
     description: "Профессиональное отбеливание зубов системой ZOOM. Белоснежная улыбка за 1 час.",
     price: "От 8000 Kč",
     color: "text-accent-600 bg-accent-100",
+    slug: "otbelivanie",
   },
   {
     icon: Microscope,
@@ -38,6 +42,7 @@ const services = [
     description: "Установка зубных имплантов премиум-класса. Пожизненная гарантия. Возвращаем полноценную функцию зубов.",
     price: "От 15000 Kč",
     color: "text-primary-600 bg-primary-100",
+    slug: "implantatsiya",
   },
   {
     icon: Heart,
@@ -45,6 +50,7 @@ const services = [
     description: "Керамические коронки, виниры, мосты. Восстановление эстетики и функции зубного ряда.",
     price: "От 8000 Kč",
     color: "text-secondary-600 bg-secondary-100",
+    slug: "protezirovanie",
   },
   {
     icon: Scissors,
@@ -52,6 +58,7 @@ const services = [
     description: "Удаление зубов мудрости, резекция верхушки корня. Опытные хирурги, безболезненно.",
     price: "От 2000 Kč",
     color: "text-accent-600 bg-accent-100",
+    slug: "khirurgiya",
   },
   {
     icon: Baby,
@@ -59,6 +66,7 @@ const services = [
     description: "Заботливое лечение детских зубов. Игровая форма приема, никакого страха у ребенка.",
     price: "От 800 Kč",
     color: "text-primary-600 bg-primary-100",
+    slug: "detskaya-stomatologiya",
   },
   {
     icon: Pill,
@@ -66,6 +74,7 @@ const services = [
     description: "Лечение десен и профилактика пародонтита. Сохраняем здоровье полости рта.",
     price: "От 1500 Kč",
     color: "text-secondary-600 bg-secondary-100",
+    slug: "parodontologiya",
   },
 ];
 
@@ -111,9 +120,11 @@ export function ServicesSection() {
                 <div className="text-lg font-bold text-primary mb-3">
                   {service.price}
                 </div>
-                <Button variant="outline" size="sm" className="w-full">
-                  Подробнее
-                </Button>
+                <Link href={`/services/${service.slug}`} className="w-full">
+                  <Button variant="outline" size="sm" className="w-full">
+                    Подробнее
+                  </Button>
+                </Link>
               </div>
             );
           })}
@@ -128,12 +139,16 @@ export function ServicesSection() {
             Присоединяйтесь к тысячам довольных пациентов, которые доверяют нам свое здоровье.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <Button size="lg" className="shadow-lg shadow-primary/20">
-              Записаться сейчас
-            </Button>
-            <Button size="lg" variant="outline" className="border-zinc-200 dark:border-zinc-700">
-              Связаться с нами
-            </Button>
+            <Link href="/booking">
+              <Button size="lg" className="shadow-lg shadow-primary/20">
+                Записаться сейчас
+              </Button>
+            </Link>
+            <Link href="/#contact">
+              <Button size="lg" variant="outline" className="border-zinc-200 dark:border-zinc-700">
+                Связаться с нами
+              </Button>
+            </Link>
           </div>
         </div>
       </div>

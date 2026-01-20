@@ -111,7 +111,7 @@ export default function BookingPage() {
   return (
     <>
       <Header />
-      <main className="flex-grow bg-white dark:bg-zinc-950 pt-20 pb-12">
+      <main className="flex-grow bg-white dark:bg-zinc-950 pt-20 pb-12 lg:pb-12 pb-28">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           {/* Page Header */}
           <header className="mb-8 text-center sm:text-left">
@@ -123,9 +123,27 @@ export default function BookingPage() {
             </p>
           </header>
 
+          {/* Mobile Summary Bar - Compact view on small screens */}
+          <div className="lg:hidden mb-6 bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-zinc-800 p-4 shadow-sm">
+            <div className="flex items-center justify-between">
+              <div className="flex-1">
+                <p className="text-sm font-semibold text-zinc-900 dark:text-white">
+                  {selectedDepartment?.name || "Выберите отделение"}
+                </p>
+                <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1">
+                  {bookingData.date || "Дата не выбрана"} • {bookingData.time}
+                </p>
+              </div>
+              <div className="text-right">
+                <p className="text-lg font-bold text-primary">1500 Kč</p>
+                <p className="text-xs text-zinc-400">Итого</p>
+              </div>
+            </div>
+          </div>
+
           <div className="lg:grid lg:grid-cols-12 lg:gap-8 items-start">
             {/* Main Content */}
-            <div className="lg:col-span-8 space-y-8">
+            <div className="lg:col-span-8 space-y-6 lg:space-y-8">
               {/* Step 1: Select Department */}
               <div className="bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-zinc-800 shadow-sm p-6">
                 <div className="flex items-center justify-between mb-4">
@@ -341,8 +359,8 @@ export default function BookingPage() {
               </div>
             </div>
 
-            {/* Sidebar - Booking Summary */}
-            <div className="lg:col-span-4 mt-8 lg:mt-0">
+            {/* Sidebar - Booking Summary - Hidden on mobile, shown in compact bar instead */}
+            <div className="lg:col-span-4 hidden lg:block">
               <div className="sticky top-24">
                 <div className="bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-zinc-800 shadow-lg overflow-hidden">
                   <div className="bg-zinc-50 dark:bg-zinc-800/50 p-4 border-b border-zinc-200 dark:border-zinc-800">
@@ -402,7 +420,7 @@ export default function BookingPage() {
                     </div>
                   </div>
 
-                  <div className="p-6 pt-0">
+                  <div className="p-6 pt-0 hidden lg:block">
                     <button
                       onClick={handleSubmit}
                       disabled={isSubmitting || !bookingData.firstName || !bookingData.lastName || !bookingData.phone || !bookingData.email}
@@ -429,6 +447,18 @@ export default function BookingPage() {
                 </div>
               </div>
             </div>
+          </div>
+
+          {/* Mobile Sticky Bottom Bar - Confirm Button */}
+          <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white dark:bg-zinc-900 border-t border-zinc-200 dark:border-zinc-800 p-4 shadow-2xl z-40">
+            <button
+              onClick={handleSubmit}
+              disabled={isSubmitting || !bookingData.firstName || !bookingData.lastName || !bookingData.phone || !bookingData.email}
+              className="w-full bg-primary hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold py-4 px-6 rounded-xl shadow-lg flex items-center justify-center gap-2 transition-transform active:scale-[0.98]"
+            >
+              <CheckCircle className="h-5 w-5" />
+              Подтвердить запись за 1500 Kč
+            </button>
           </div>
         </div>
       </main>

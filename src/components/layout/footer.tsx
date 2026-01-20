@@ -26,22 +26,22 @@ export function Footer() {
             <h4 className="font-semibold text-zinc-900 dark:text-white mb-4">Услуги</h4>
             <ul className="space-y-2 text-sm text-zinc-600 dark:text-zinc-400">
               <li>
-                <Link href="#services" className="hover:text-primary transition-colors">
+                <Link href="/services/lechenie-kariesa" className="hover:text-primary transition-colors">
                   Лечение кариеса
                 </Link>
               </li>
               <li>
-                <Link href="#services" className="hover:text-primary transition-colors">
+                <Link href="/services/implantatsiya" className="hover:text-primary transition-colors">
                   Имплантация
                 </Link>
               </li>
               <li>
-                <Link href="#services" className="hover:text-primary transition-colors">
+                <Link href="/services/protezirovanie" className="hover:text-primary transition-colors">
                   Протезирование
                 </Link>
               </li>
               <li>
-                <Link href="#services" className="hover:text-primary transition-colors">
+                <Link href="/services/detskaya-stomatologiya" className="hover:text-primary transition-colors">
                   Детская стоматология
                 </Link>
               </li>

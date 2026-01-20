@@ -6,6 +6,7 @@ import { GallerySection } from "@/components/sections/gallery-section";
 import { HeroSection } from "@/components/sections/hero-section";
 import { ServicesSection } from "@/components/sections/services-section";
 import { TestimonialsSection } from "@/components/sections/testimonials-section";
+import { FloatingBookingButton } from "@/components/ui/floating-booking-button";
 
 export default function HomePage() {
   return (
@@ -19,6 +20,7 @@ export default function HomePage() {
         <TestimonialsSection />
         <ContactSection />
       </main>
+      <FloatingBookingButton />
       <Footer />
     </>
   );
