@@ -1,6 +1,13 @@
 import { db } from "@/lib/db";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CheckCircle, Clock, Mail, Phone, User, Calendar } from "lucide-react";
+import type { Booking, Patient, Doctor, Service, Contact } from "@prisma/client";
+
+type BookingWithRelations = Booking & {
+  patient: Patient;
+  doctor: Doctor;
+  service: Service;
+};
 
 export default async function AdminDashboard() {
   // Authentication is handled by middleware.ts
@@ -140,7 +147,7 @@ export default async function AdminDashboard() {
                 {bookings.length === 0 ? (
                   <p className="text-neutral-500">Нет записей</p>
                 ) : (
-                  bookings.map((booking) => (
+                  bookings.map((booking: BookingWithRelations) => (
                     <div
                       key={booking.id}
                       className="flex items-start justify-between border-b pb-4 last:border-0"
@@ -205,7 +212,7 @@ export default async function AdminDashboard() {
                 {contacts.length === 0 ? (
                   <p className="text-neutral-500">Нет новых обращений</p>
                 ) : (
-                  contacts.map((contact) => (
+                  contacts.map((contact: Contact) => (
                     <div
                       key={contact.id}
                       className="border-b pb-4 last:border-0"
