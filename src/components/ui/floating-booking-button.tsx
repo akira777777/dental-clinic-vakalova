@@ -1,8 +1,8 @@
 "use client";
 
+import { AnimatePresence, motion } from "framer-motion";
 import { Calendar, Phone, X } from "lucide-react";
 import Link from "next/link";
-import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 
 export function FloatingBookingButton() {
@@ -54,16 +54,16 @@ export function FloatingBookingButton() {
           boxShadow: isExpanded
             ? "0 20px 25px -5px rgba(13, 148, 136, 0.3)"
             : [
-                "0 20px 25px -5px rgba(13, 148, 136, 0.3)",
-                "0 20px 25px -5px rgba(13, 148, 136, 0.5)",
-                "0 20px 25px -5px rgba(13, 148, 136, 0.3)",
-              ],
+              "0 20px 25px -5px rgba(13, 148, 136, 0.3)",
+              "0 20px 25px -5px rgba(13, 148, 136, 0.5)",
+              "0 20px 25px -5px rgba(13, 148, 136, 0.3)",
+            ],
         }}
         transition={{
           boxShadow: {
             duration: 2,
             repeat: isExpanded ? 0 : Infinity,
-            ease: "easeInOut",
+            ease: [0.42, 0, 0.58, 1], // easeInOut
           },
         }}
       >
@@ -91,7 +91,7 @@ export function FloatingBookingButton() {
           transition={{
             duration: 2,
             repeat: Infinity,
-            ease: "easeInOut",
+            ease: [0.42, 0, 0.58, 1], // easeInOut
           }}
         />
       )}

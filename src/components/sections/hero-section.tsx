@@ -24,7 +24,7 @@ const itemVariants = {
     y: 0,
     transition: {
       duration: 0.6,
-      ease: "easeOut",
+      ease: [0.16, 1, 0.3, 1], // easeOut
     },
   },
 };
@@ -36,7 +36,7 @@ const floatVariants = {
     transition: {
       duration: 3,
       repeat: Infinity,
-      ease: "easeInOut",
+      ease: [0.42, 0, 0.58, 1], // easeInOut
     },
   },
 };
@@ -55,7 +55,7 @@ export function HeroSection() {
           transition={{
             duration: 8,
             repeat: Infinity,
-            ease: "easeInOut",
+            ease: [0.42, 0, 0.58, 1], // easeInOut
           }}
         />
         <motion.div
@@ -67,7 +67,7 @@ export function HeroSection() {
           transition={{
             duration: 10,
             repeat: Infinity,
-            ease: "easeInOut",
+            ease: [0.42, 0, 0.58, 1], // easeInOut
           }}
         />
       </div>
@@ -166,7 +166,7 @@ export function HeroSection() {
             className="lg:col-span-6 relative mt-8 sm:mt-0"
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           >
             <div className="relative rounded-2xl overflow-hidden shadow-2xl border border-zinc-200 dark:border-zinc-800 hover:shadow-3xl transition-shadow duration-300">
               <div className="absolute inset-0 bg-gradient-to-tr from-primary/10 to-transparent mix-blend-overlay z-10"></div>
