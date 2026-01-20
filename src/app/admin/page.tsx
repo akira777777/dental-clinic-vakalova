@@ -3,6 +3,9 @@ import { db } from "@/lib/db";
 import type { Booking, Contact, Doctor, Patient, Service } from "@prisma/client";
 import { Calendar, CheckCircle, Clock, Mail, Phone, User } from "lucide-react";
 
+// Force dynamic rendering (admin requires auth and database)
+export const dynamic = 'force-dynamic';
+
 type BookingWithRelations = Booking & {
   patient: Patient;
   doctor: Doctor;
