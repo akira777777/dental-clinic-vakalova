@@ -19,10 +19,10 @@ import Link from "next/link";
 import { useState } from "react";
 
 const departments = [
-  { id: "1", name: "Терапевтическая стоматология", desc: "Лечение кариеса, пломбы", doctor: "Татьяна Вакалова" },
-  { id: "2", name: "Хирургия и имплантология", desc: "Удаление, имплантаты", doctor: "Петр Новак" },
-  { id: "3", name: "Ортопедия", desc: "Протезирование, коронки", doctor: "Анна Черна" },
-  { id: "4", name: "Детская стоматология", desc: "Лечение детей", doctor: "Татьяна Вакалова" },
+  { id: "1", name: "Терапевтическая стоматология", desc: "Лечение кариеса, пломбы", doctor: "Татьяна Вакалова", doctorId: "doc-tatyana", serviceId: "srv-therapy" },
+  { id: "2", name: "Хирургия и имплантология", desc: "Удаление, имплантаты", doctor: "Елизавета Вакалова", doctorId: "doc-elizaveta", serviceId: "srv-surgery" },
+  { id: "3", name: "Ортопедия", desc: "Протезирование, коронки", doctor: "Анна Черна", doctorId: "doc-anna", serviceId: "srv-ortho" },
+  { id: "4", name: "Детская стоматология", desc: "Лечение детей", doctor: "Татьяна Вакалова", doctorId: "doc-tatyana", serviceId: "srv-kids" },
 ];
 
 const timeSlots = [
@@ -33,6 +33,8 @@ const timeSlots = [
 export default function BookingPage() {
   const [bookingData, setBookingData] = useState({
     departmentId: "1",
+    doctorId: "doc-tatyana",
+    serviceId: "srv-therapy",
     date: "",
     time: "09:30",
     firstName: "",
@@ -178,7 +180,7 @@ export default function BookingPage() {
                         type="radio"
                         name="department"
                         checked={bookingData.departmentId === dept.id}
-                        onChange={() => setBookingData({ ...bookingData, departmentId: dept.id })}
+                        onChange={() => setBookingData({ ...bookingData, departmentId: dept.id, doctorId: dept.doctorId, serviceId: dept.serviceId })}
                         className="mt-1 h-4 w-4 text-primary border-zinc-300 focus:ring-primary"
                       />
                       <div className="ml-3">
@@ -236,13 +238,21 @@ export default function BookingPage() {
                       ))}
                       {[...Array(31)].map((_, i) => {
                         const day = i + 1;
+                        const date = new Date();
+                        const year = date.getFullYear();
+                        const month = String(date.getMonth() + 1).padStart(2, '0');
+                        const dayStr = String(day).padStart(2, '0');
+                        const dateString = `${year}-${month}-${dayStr}`;
+                        const isSelected = bookingData.date === dateString;
                         const isToday = day === 6;
+
                         return (
                           <button
                             key={day}
-                            className={`p-2 text-sm rounded-lg transition-colors ${isToday
+                            onClick={() => setBookingData({ ...bookingData, date: dateString })}
+                            className={`p-2 text-sm rounded-lg transition-colors ${isSelected
                                 ? "bg-primary text-white shadow-sm"
-                                : "text-zinc-900 dark:text-white hover:bg-zinc-100 dark:hover:bg-zinc-800"
+                                : isToday ? "border border-primary text-primary" : "text-zinc-900 dark:text-white hover:bg-zinc-100 dark:hover:bg-zinc-800"
                               }`}
                           >
                             {day}
@@ -423,7 +433,7 @@ export default function BookingPage() {
                   <div className="p-6 pt-0 hidden lg:block">
                     <button
                       onClick={handleSubmit}
-                      disabled={isSubmitting || !bookingData.firstName || !bookingData.lastName || !bookingData.phone || !bookingData.email}
+                      disabled={isSubmitting || !bookingData.firstName || !bookingData.lastName || !bookingData.phone || !bookingData.email || !bookingData.date}
                       className="w-full bg-primary hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold py-3 px-4 rounded-lg shadow-md flex items-center justify-center gap-2 transition-transform active:scale-[0.98]"
                     >
                       <CheckCircle className="h-5 w-5" />
@@ -453,7 +463,7 @@ export default function BookingPage() {
           <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white dark:bg-zinc-900 border-t border-zinc-200 dark:border-zinc-800 p-4 shadow-2xl z-40">
             <button
               onClick={handleSubmit}
-              disabled={isSubmitting || !bookingData.firstName || !bookingData.lastName || !bookingData.phone || !bookingData.email}
+              disabled={isSubmitting || !bookingData.firstName || !bookingData.lastName || !bookingData.phone || !bookingData.email || !bookingData.date}
               className="w-full bg-primary hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold py-4 px-6 rounded-xl shadow-lg flex items-center justify-center gap-2 transition-transform active:scale-[0.98]"
             >
               <CheckCircle className="h-5 w-5" />
