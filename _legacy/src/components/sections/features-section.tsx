@@ -157,19 +157,7 @@ export function FeaturesSection() {
               </motion.div>
 
               {/* Content */}
-              <h3 className="text-base font-semibold text-zinc-900 dark:text-white mb-2 group-hover:text-transparent group-hover:bg-gradient-to-br group-hover:bg-clip-text transition-all duration-300"
-                style={
-                  index % 5 === 0
-                    ? { backgroundImage: "linear-gradient(to bottom right, rgb(59, 130, 246), rgb(6, 182, 212))" }
-                    : index % 5 === 1
-                      ? { backgroundImage: "linear-gradient(to bottom right, rgb(168, 85, 247), rgb(236, 72, 153))" }
-                      : index % 5 === 2
-                        ? { backgroundImage: "linear-gradient(to bottom right, rgb(251, 191, 36), rgb(249, 115, 22))" }
-                        : index % 5 === 3
-                          ? { backgroundImage: "linear-gradient(to bottom right, rgb(34, 197, 94), rgb(16, 185, 129))" }
-                          : { backgroundImage: "linear-gradient(to bottom right, rgb(239, 68, 68), rgb(236, 72, 153))" }
-                }
-              >
+              <h3 className={`text-base font-semibold text-zinc-900 dark:text-white mb-2 group-hover:text-transparent group-hover:bg-gradient-to-br group-hover:bg-clip-text transition-all duration-300 ${feature.gradient}`}>
                 {feature.title}
               </h3>
               <p className="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
