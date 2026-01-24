@@ -1,17 +1,18 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { MessageCircle, X, Send, Sparkles, Loader2, Bot } from 'lucide-react';
-import { GoogleGenAI, Chat, GenerateContentResponse } from "@google/genai";
-import { createChatSession } from '../services/gemini';
+import { Chat, GenerateContentResponse } from "@google/genai";
+import { createChatSession, isGeminiConfigured } from '../services/gemini';
 import { ChatMessage } from '../types';
 
 const ChatAssistant: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isAvailable, setIsAvailable] = useState(true);
   const [messages, setMessages] = useState<ChatMessage[]>([
     { role: 'model', text: 'Hello! I\'m Vaka, your dental assistant. How can I help you regarding your smile today? 🦷' }
   ]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  
+
   const chatSessionRef = useRef<Chat | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -24,11 +25,19 @@ const ChatAssistant: React.FC = () => {
   }, [messages, isOpen]);
 
   useEffect(() => {
+    if (!isGeminiConfigured()) {
+      setIsAvailable(false);
+      return;
+    }
     if (!chatSessionRef.current) {
       try {
         chatSessionRef.current = createChatSession();
+        if (!chatSessionRef.current) {
+          setIsAvailable(false);
+        }
       } catch (e) {
         console.error("Failed to initialize chat:", e);
+        setIsAvailable(false);
       }
     }
   }, []);
@@ -85,6 +94,11 @@ const ChatAssistant: React.FC = () => {
       handleSendMessage();
     }
   };
+
+  // Don't render the chat assistant if Gemini is not configured
+  if (!isAvailable) {
+    return null;
+  }
 
   return (
     <>
