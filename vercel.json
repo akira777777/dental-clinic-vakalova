@@ -1,8 +1,13 @@
 {
-    "buildCommand": "npm run build",
-    "outputDirectory": "dist",
+    "version": 2,
+    "buildCommand": "npm run build --workspace=client",
+    "outputDirectory": "client/dist",
     "framework": "vite",
     "rewrites": [
+        {
+            "source": "/api/(.*)",
+            "destination": "https://dental-clinic-api-placeholder.vercel.app/api/$1"
+        },
         {
             "source": "/(.*)",
             "destination": "/index.html"

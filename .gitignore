@@ -1,1 +1,9 @@
 node_modules
+dist
+.env*
+.vercel
+server/dist
+client/dist
+.DS_Store
+*.db
+*.db-journal
