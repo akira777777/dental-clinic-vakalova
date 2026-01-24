@@ -2,7 +2,7 @@ import { GoogleGenAI, Chat } from "@google/genai";
 
 // Initialize Gemini Client
 // IMPORTANT: In a real production app, ensure API_KEY is restricted or proxied.
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY || '' });
+const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_GEMINI_API_KEY || '' });
 
 const SYSTEM_INSTRUCTION = `
 You are "Vaka", the friendly AI assistant for Vakalova Dental Clinic.

@@ -98,6 +98,7 @@ const config: Config = {
       },
       fontFamily: {
         sans: ["Inter", "system-ui", "-apple-system", "sans-serif"],
+        serif: ["Playfair Display", "serif"],
         heading: ["Inter", "system-ui", "sans-serif"],
         display: ["Inter", "system-ui", "sans-serif"],
         body: ["Inter", "system-ui", "sans-serif"],
@@ -119,6 +120,7 @@ const config: Config = {
         large: "0 8px 32px 0 rgb(0 0 0 / 0.12)",
       },
       animation: {
+        "fade-in-up": "fadeInUp 0.8s ease-out forwards",
         "fade-in": "fadeIn 0.6s ease-out",
         "slide-up": "slideUp 0.6s ease-out",
         "slide-down": "slideDown 0.6s ease-out",
@@ -132,6 +134,10 @@ const config: Config = {
         "pulse-slow": "pulse 3s ease-in-out infinite",
       },
       keyframes: {
+        fadeInUp: {
+          "0%": { opacity: "0", transform: "translateY(20px)" },
+          "100%": { opacity: "1", transform: "translateY(0)" },
+        },
         fadeIn: {
           from: { opacity: "0" },
           to: { opacity: "1" },
