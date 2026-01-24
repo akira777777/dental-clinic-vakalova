@@ -11,11 +11,14 @@
         "dev:client": "npm run dev --workspace=client",
         "dev:server": "npm run dev --workspace=server",
         "build": "npm run build --workspaces",
-        "install:all": "npm install && npm install --workspaces"
+        "install:all": "npm install && npm install --workspaces",
+        "postinstall": "prisma generate --schema=server/prisma/schema.prisma"
     },
     "dependencies": {
-        "express": "^4.18.2",
-        "cors": "^2.8.5"
+        "prisma": "^5.22.0",
+        "@prisma/client": "^5.22.0",
+        "cors": "^2.8.5",
+        "express": "^4.18.2"
     },
     "devDependencies": {
         "concurrently": "^8.2.2",
