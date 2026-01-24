@@ -1,64 +1,19 @@
 {
-  "name": "dental-clinic-vakalova",
-  "version": "1.0.0",
-  "description": "Modern website for Tatiana Vakalova Dental Clinic",
-  "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint",
-    "type-check": "tsc --noEmit",
-    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,css,md}\"",
-    "postinstall": "prisma generate"
-  },
-  "dependencies": {
-    "@hookform/resolvers": "^3.9.1",
-    "@prisma/adapter-better-sqlite3": "^7.2.0",
-    "@prisma/client": "^7.2.0",
-    "@radix-ui/react-slot": "^1.2.4",
-    "autoprefixer": "^10.4.20",
-    "better-sqlite3": "^12.6.2",
-    "class-variance-authority": "^0.7.1",
-    "clsx": "^2.1.1",
-    "critters": "^0.0.23",
-    "date-fns": "^4.1.0",
-    "framer-motion": "^12.0.0",
-    "lucide-react": "^0.468.0",
-    "next": "^15.1.4",
-    "postcss": "^8.4.49",
-    "prisma": "^7.2.0",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "react-hook-form": "^7.54.2",
-    "resend": "^4.0.2",
-    "tailwind-merge": "^2.6.0",
-    "tailwindcss": "^3.4.17",
-    "tailwindcss-animate": "^1.0.7",
-    "zod": "^3.24.1"
-  },
-  "devDependencies": {
-    "@types/better-sqlite3": "^7.6.13",
-    "@types/node": "^22.10.5",
-    "@types/react": "^19.0.6",
-    "@types/react-dom": "^19.0.2",
-    "eslint": "^9.18.0",
-    "eslint-config-next": "^15.1.4",
-    "prettier": "^3.4.2",
-    "typescript": "^5.7.2"
-  },
-  "engines": {
-    "node": ">=20.0.0",
-    "npm": ">=10.0.0"
-  },
-  "keywords": [
-    "dental",
-    "clinic",
-    "dentistry",
-    "next.js",
-    "typescript",
-    "tailwind"
-  ],
-  "author": "Tatiana Vakalova Dental Clinic",
-  "license": "UNLICENSED"
+    "name": "dental-clinic-monorepo",
+    "version": "1.0.0",
+    "private": true,
+    "workspaces": [
+        "client",
+        "server"
+    ],
+    "scripts": {
+        "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
+        "dev:client": "npm run dev --workspace=client",
+        "dev:server": "npm run dev --workspace=server",
+        "build": "npm run build --workspaces",
+        "install:all": "npm install && npm install --workspaces"
+    },
+    "devDependencies": {
+        "concurrently": "^8.2.2"
+    }
 }
