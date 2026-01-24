@@ -92,17 +92,24 @@ export const SERVICES: Service[] = [
 export const DOCTORS: Doctor[] = [
   {
     id: 'dr-vakalova',
-    name: 'Dr. Elena Vakalova',
-    specialty: 'Lead Dentist & Cosmetic Specialist',
-    bio: 'With over 15 years of experience, Dr. Vakalova specializes in creating beautiful, natural smiles using the latest minimally invasive techniques.',
-    image: 'https://picsum.photos/id/64/400/500'
+    name: 'Dr. Elizaveta Vakalova',
+    specialty: 'Lead Dentist & Oral Surgeon',
+    bio: 'With over 15 years of experience, Dr. Vakalova specializes in complex surgeries and permanent dental restorations.',
+    image: '/images/doctors/elizaveta-vakalova.jpg'
   },
   {
-    id: 'dr-smith',
-    name: 'Dr. James Chen',
-    specialty: 'Orthodontist',
-    bio: 'Dr. Chen is a certified Invisalign provider and expert in corrective orthodontics for both teens and adults.',
-    image: 'https://picsum.photos/id/91/400/500'
+    id: 'dr-anna',
+    name: 'Dr. Anna Cherna',
+    specialty: 'Orthodontist Specialist',
+    bio: 'Dr. Cherna is a certified Invisalign provider, helping hundreds of patients achieve perfect alignment.',
+    image: '/images/doctors/anna-cherna.jpg'
+  },
+  {
+    id: 'dr-tatyana',
+    name: 'Dr. Tatyana Vakalova',
+    specialty: 'Cosmetic Dentist',
+    bio: 'A master of aesthetics, Dr. Tatyana specializes in porcelain veneers and high-end smile makeovers.',
+    image: '/images/doctors/tatyana-vakalova.jpg'
   }
 ];
 
