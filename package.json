@@ -13,7 +13,13 @@
         "build": "npm run build --workspaces",
         "install:all": "npm install && npm install --workspaces"
     },
+    "dependencies": {
+        "express": "^4.18.2",
+        "cors": "^2.8.5"
+    },
     "devDependencies": {
-        "concurrently": "^8.2.2"
+        "concurrently": "^8.2.2",
+        "@types/express": "^4.17.21",
+        "@types/cors": "^2.8.17"
     }
 }

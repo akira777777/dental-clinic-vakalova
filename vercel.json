@@ -6,7 +6,7 @@
     "rewrites": [
         {
             "source": "/api/(.*)",
-            "destination": "https://dental-clinic-api-placeholder.vercel.app/api/$1"
+            "destination": "/api"
         },
         {
             "source": "/(.*)",
