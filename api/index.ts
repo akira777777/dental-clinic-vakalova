@@ -1,17 +1,61 @@
 import express from 'express';
 import cors from 'cors';
 import { PrismaClient } from '@prisma/client';
+import { z } from 'zod';
 
 const app = express();
-const prisma = new PrismaClient();
 
-app.use(cors());
-app.use(express.json());
+// Initialize Prisma Client with production optimizations
+// For Vercel serverless functions, use connection pooling
+const prisma = new PrismaClient({
+    log: process.env.NODE_ENV === 'development' ? ['query', 'error', 'warn'] : ['error'],
+    // Optimize for serverless: reduce connection pool size
+    datasources: {
+        db: {
+            url: process.env.DATABASE_URL,
+        },
+    },
+});
+
+// CORS configuration for production
+const corsOptions = {
+    origin: process.env.NODE_ENV === 'production' 
+        ? process.env.ALLOWED_ORIGINS?.split(',') || '*' 
+        : '*',
+    credentials: true,
+    optionsSuccessStatus: 200,
+};
+
+app.use(cors(corsOptions));
+app.use(express.json({ limit: '10mb' }));
+
+// Security headers
+app.use((req, res, next) => {
+    if (process.env.NODE_ENV === 'production') {
+        res.setHeader('X-Content-Type-Options', 'nosniff');
+        res.setHeader('X-Frame-Options', 'DENY');
+        res.setHeader('X-XSS-Protection', '1; mode=block');
+        res.setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
+    }
+    next();
+});
+
+// Validation schema
+const bookingSchema = z.object({
+    firstName: z.string().min(2),
+    lastName: z.string().min(2),
+    email: z.string().email(),
+    phone: z.string().min(10),
+    serviceId: z.string().optional(),
+    date: z.string(), // ISO datetime string from frontend
+    time: z.string(), // "HH:mm"
+    notes: z.string().optional(),
+});
 
 // Mock Services Data for fallback ( ensures frontend always has data )
 const FALLBACK_SERVICES = [
-    { id: 'checkup', name: 'General Checkup', category: 'Checkup', price: 50, duration: 30, description: 'Routine dental examination.' },
-    { id: 'cleaning', name: 'Teeth Cleaning', category: 'Cleaning', price: 90, duration: 45, description: 'Professional dental cleaning.' },
+    { id: 'checkup', name: 'General Checkup', category: 'Checkup', price: 50, duration: 30, description: 'Routine dental examination.', slug: 'general-checkup' },
+    { id: 'cleaning', name: 'Teeth Cleaning', category: 'Cleaning', price: 90, duration: 45, description: 'Professional dental cleaning.', slug: 'teeth-cleaning' },
 ];
 
 /**
@@ -26,7 +70,9 @@ app.get('/api/health', (req, res) => {
  */
 app.get('/api/services', async (req, res) => {
     try {
-        const services = await prisma.service.findMany();
+        const services = await prisma.service.findMany({
+            orderBy: { category: 'asc' }
+        });
         if (services.length === 0) return res.json(FALLBACK_SERVICES);
         res.json(services);
     } catch (error) {
@@ -39,22 +85,32 @@ app.get('/api/services', async (req, res) => {
  * @api {post} /api/booking Create booking
  */
 app.post('/api/booking', async (req, res) => {
-    const { firstName, lastName, email, phone, date, time, serviceId } = req.body;
-
-    if (!firstName || !lastName || !email || !phone || !date || !time) {
-        return res.status(400).json({ error: 'Missing required fields' });
-    }
-
     try {
-        // 1. Find or Create Patient
-        let patient = await prisma.patient.findUnique({ where: { email } });
+        const data = bookingSchema.parse(req.body);
+
+        // Check if time is in the past
+        const bookingDate = new Date(data.date);
+        if (bookingDate < new Date()) {
+            return res.status(400).json({ error: 'Cannot book in the past' });
+        }
+
+        // Find or create patient
+        let patient = await prisma.patient.findUnique({
+            where: { email: data.email }
+        });
+
         if (!patient) {
             patient = await prisma.patient.create({
-                data: { firstName, lastName, email, phone }
+                data: {
+                    firstName: data.firstName,
+                    lastName: data.lastName,
+                    email: data.email,
+                    phone: data.phone
+                }
             });
         }
 
-        // 2. Ensure at least one Doctor exists (for the demo/skeleton)
+        // Ensure at least one Doctor exists
         let doctor = await prisma.doctor.findFirst();
         if (!doctor) {
             doctor = await prisma.doctor.create({
@@ -73,28 +129,53 @@ app.post('/api/booking', async (req, res) => {
             });
         }
 
-        // 3. Ensure Service exists (map mock ID to DB)
-        let service = await prisma.service.findFirst({ where: { id: serviceId } });
-        if (!service) {
-            // Create if missing (using default values)
+        // Ensure Service exists (create if missing)
+        let service = await prisma.service.findFirst({ where: { id: data.serviceId } });
+        if (!service && data.serviceId) {
+            // Map common service IDs to proper service data
+            const serviceMap: Record<string, { name: string; slug: string; description: string; price: number; duration: number; category: string }> = {
+                'checkup': { name: 'General Checkup', slug: 'general-checkup', description: 'Routine dental examination and consultation.', price: 50, duration: 30, category: 'Checkup' },
+                'cleaning': { name: 'Teeth Cleaning', slug: 'teeth-cleaning', description: 'Professional dental cleaning and polishing.', price: 90, duration: 45, category: 'Cleaning' },
+                'pain': { name: 'Pain / Emergency', slug: 'pain-emergency', description: 'Emergency dental consultation for pain relief.', price: 100, duration: 30, category: 'Emergency' },
+                'cosmetic': { name: 'Cosmetic Consultation', slug: 'cosmetic-consultation', description: 'Consultation for cosmetic dental procedures.', price: 75, duration: 45, category: 'Cosmetic' },
+                'orthodontics': { name: 'Orthodontics', slug: 'orthodontics', description: 'Orthodontic consultation and treatment planning.', price: 120, duration: 60, category: 'Orthodontics' }
+            };
+
+            const serviceData = serviceMap[data.serviceId] || {
+                name: 'Dental Consultation',
+                slug: `consultation-${Date.now()}`,
+                description: 'General dental consultation.',
+                price: 50,
+                duration: 30,
+                category: 'General'
+            };
+
             service = await prisma.service.create({
                 data: {
-                    id: serviceId || 'default',
-                    name: 'Dental Procedure',
-                    slug: `procedure-${Date.now()}`,
-                    description: 'Consultation to be defined.',
-                    price: 0,
+                    id: data.serviceId,
+                    ...serviceData
+                }
+            });
+        } else if (!data.serviceId) {
+            // If no serviceId provided, create a default service
+            service = await prisma.service.findFirst() || await prisma.service.create({
+                data: {
+                    name: 'General Consultation',
+                    slug: 'general-consultation',
+                    description: 'General dental consultation.',
+                    price: 50,
                     duration: 30,
                     category: 'General'
                 }
             });
         }
 
-        // 4. Create actual Booking
+        // Create booking
         const booking = await prisma.booking.create({
             data: {
-                date: new Date(date),
-                time: time,
+                date: bookingDate,
+                time: data.time,
+                notes: data.notes,
                 patientId: patient.id,
                 doctorId: doctor.id,
                 serviceId: service.id,
@@ -103,20 +184,34 @@ app.post('/api/booking', async (req, res) => {
         });
 
         res.json({
-            message: 'Запись успешно создана! Мы свяжемся с вами.',
+            message: 'Booking created successfully',
             bookingId: booking.id,
             status: booking.status
         });
 
     } catch (error) {
+        if (error instanceof z.ZodError) {
+            return res.status(400).json({ errors: error.errors });
+        }
         console.error('Database Error:', error);
-        // If DB fails (e.g. not connected), return mock success but log error
-        res.json({
-            message: 'Запись получена (режим ожидания БД). Мы свяжемся с вами.',
-            bookingId: `BK-${Date.now().toString().slice(-6)}`,
-            status: 'PENDING'
-        });
+        // Don't expose internal errors in production
+        const errorMessage = process.env.NODE_ENV === 'production' 
+            ? 'Internal server error' 
+            : error instanceof Error ? error.message : 'Internal server error';
+        res.status(500).json({ error: errorMessage });
     }
 });
 
+// Graceful shutdown for Prisma in serverless
+if (typeof process !== 'undefined') {
+    process.on('beforeExit', async () => {
+        await prisma.$disconnect();
+    });
+}
+
+// Vercel serverless function handler
+// Vercel automatically handles Express apps when exported as default
 export default app;
+
+// Also export as named export for compatibility
+export { app };

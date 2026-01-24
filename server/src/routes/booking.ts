@@ -47,36 +47,84 @@ router.post('/', async (req, res) => {
             });
         }
 
-        // Create booking
-        // For now we need a doctorId and serviceId. If not provided, we might need a default or error.
-        // For this skeleton, we will use placeholders if not provided, or fail if strictly required.
-        // We'll assume frontend sends a valid serviceId. If mock, we might need to seed a service.
-
-        // MOCK: Sending success without DB write if no serviceId provided (to avoid crash on empty DB)
-        if (!data.serviceId) {
-            return res.json({
-                message: 'Booking request validated (Mock)',
-                bookingId: 'mock-' + Date.now(),
-                status: 'PENDING'
+        // Ensure at least one Doctor exists
+        let doctor = await prisma.doctor.findFirst();
+        if (!doctor) {
+            doctor = await prisma.doctor.create({
+                data: {
+                    firstName: 'Elizaveta',
+                    lastName: 'Vakalova',
+                    email: 'dr.vakalova@dental.com',
+                    phone: '+1 555-123-4567',
+                    specialization: 'Lead Dentist',
+                    education: '[]',
+                    experience: 10,
+                    licenses: '[]',
+                    workingDays: '["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]',
+                    workingHours: '9:00-18:00'
+                }
             });
         }
 
-        // If we have IDs:
-        /*
-        const booking = await prisma.booking.create({
-          data: {
-            date: bookingDate,
-            time: data.time,
-            notes: data.notes,
-            patientId: patient.id,
-            doctorId: "placeholder-doctor-id", // Needs to be fetched/selected
-            serviceId: data.serviceId
-          }
-        });
-        res.json(booking);
-        */
+        // Ensure Service exists (create if missing)
+        let service = await prisma.service.findFirst({ where: { id: data.serviceId } });
+        if (!service && data.serviceId) {
+            // Map common service IDs to proper service data
+            const serviceMap: Record<string, { name: string; slug: string; description: string; price: number; duration: number; category: string }> = {
+                'checkup': { name: 'General Checkup', slug: 'general-checkup', description: 'Routine dental examination and consultation.', price: 50, duration: 30, category: 'Checkup' },
+                'cleaning': { name: 'Teeth Cleaning', slug: 'teeth-cleaning', description: 'Professional dental cleaning and polishing.', price: 90, duration: 45, category: 'Cleaning' },
+                'pain': { name: 'Pain / Emergency', slug: 'pain-emergency', description: 'Emergency dental consultation for pain relief.', price: 100, duration: 30, category: 'Emergency' },
+                'cosmetic': { name: 'Cosmetic Consultation', slug: 'cosmetic-consultation', description: 'Consultation for cosmetic dental procedures.', price: 75, duration: 45, category: 'Cosmetic' },
+                'orthodontics': { name: 'Orthodontics', slug: 'orthodontics', description: 'Orthodontic consultation and treatment planning.', price: 120, duration: 60, category: 'Orthodontics' }
+            };
 
-        res.json({ message: 'Booking processed', status: 'PENDING' });
+            const serviceData = serviceMap[data.serviceId] || {
+                name: 'Dental Consultation',
+                slug: `consultation-${Date.now()}`,
+                description: 'General dental consultation.',
+                price: 50,
+                duration: 30,
+                category: 'General'
+            };
+
+            service = await prisma.service.create({
+                data: {
+                    id: data.serviceId,
+                    ...serviceData
+                }
+            });
+        } else if (!data.serviceId) {
+            // If no serviceId provided, create a default service
+            service = await prisma.service.findFirst() || await prisma.service.create({
+                data: {
+                    name: 'General Consultation',
+                    slug: 'general-consultation',
+                    description: 'General dental consultation.',
+                    price: 50,
+                    duration: 30,
+                    category: 'General'
+                }
+            });
+        }
+
+        // Create booking
+        const booking = await prisma.booking.create({
+            data: {
+                date: bookingDate,
+                time: data.time,
+                notes: data.notes,
+                patientId: patient.id,
+                doctorId: doctor.id,
+                serviceId: service.id,
+                status: 'PENDING'
+            }
+        });
+
+        res.json({
+            message: 'Booking created successfully',
+            bookingId: booking.id,
+            status: booking.status
+        });
 
     } catch (error) {
         if (error instanceof z.ZodError) {

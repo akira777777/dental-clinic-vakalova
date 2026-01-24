@@ -2,6 +2,9 @@
     "name": "dental-clinic-monorepo",
     "version": "1.0.0",
     "private": true,
+    "engines": {
+        "node": "20.x"
+    },
     "workspaces": [
         "client",
         "server"
@@ -12,13 +15,18 @@
         "dev:server": "npm run dev --workspace=server",
         "build": "npm run build --workspaces",
         "install:all": "npm install && npm install --workspaces",
-        "postinstall": "prisma generate --schema=server/prisma/schema.prisma"
+        "postinstall": "prisma generate --schema=server/prisma/schema.prisma",
+        "prisma:generate": "prisma generate --schema=server/prisma/schema.prisma",
+        "prisma:push": "prisma db push --schema=server/prisma/schema.prisma",
+        "prisma:migrate": "prisma migrate dev --schema=server/prisma/schema.prisma",
+        "prisma:studio": "prisma studio --schema=server/prisma/schema.prisma"
     },
     "dependencies": {
         "@prisma/client": "^5.22.0",
         "cors": "^2.8.5",
         "express": "^4.18.2",
-        "prisma": "^5.22.0"
+        "prisma": "^5.22.0",
+        "zod": "^3.22.4"
     },
     "devDependencies": {
         "@types/cors": "^2.8.17",
