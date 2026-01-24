@@ -1,8 +1,14 @@
 import { GoogleGenAI, Chat } from "@google/genai";
 
-// Initialize Gemini Client
+// Check if Gemini API key is configured
+const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
+export const isGeminiConfigured = (): boolean => {
+  return !!GEMINI_API_KEY && GEMINI_API_KEY.length > 0;
+};
+
+// Initialize Gemini Client only if API key is available
 // IMPORTANT: In a real production app, ensure API_KEY is restricted or proxied.
-const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_GEMINI_API_KEY || '' });
+const ai = isGeminiConfigured() ? new GoogleGenAI({ apiKey: GEMINI_API_KEY }) : null;
 
 const SYSTEM_INSTRUCTION = `
 You are "Vaka", the friendly AI assistant for Vakalova Dental Clinic.
@@ -25,7 +31,11 @@ Guidelines:
 - Use emojis occasionally to be friendly 🦷 ✨.
 `;
 
-export const createChatSession = (): Chat => {
+export const createChatSession = (): Chat | null => {
+  if (!ai) {
+    console.warn('Gemini API key is not configured. Chat assistant will be disabled.');
+    return null;
+  }
   return ai.chats.create({
     model: 'gemini-3-flash-preview',
     config: {
