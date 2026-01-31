@@ -113,32 +113,34 @@ export async function POST(request: NextRequest) {
     try {
       const { sendBookingConfirmation, sendBookingNotification } = await import("@/lib/email");
       
-      // Send confirmation to patient
-      await sendBookingConfirmation(patient.email, {
-        patientName: `${patient.firstName} ${patient.lastName}`,
-        doctorName: `${booking.doctor.firstName} ${booking.doctor.lastName}`,
-        serviceName: booking.service.name,
-        date: data.date,
-        time: data.time,
-        clinicAddress: "Václavské náměstí 123/45, Praha 1, 110 00",
-        clinicPhone: "+420 XXX XXX XXX",
-        bookingId: booking.id,
-      });
-      
-      // Send notification to clinic
-      await sendBookingNotification({
-        patientName: `${patient.firstName} ${patient.lastName}`,
-        patientEmail: patient.email,
-        patientPhone: patient.phone,
-        doctorName: `${booking.doctor.firstName} ${booking.doctor.lastName}`,
-        serviceName: booking.service.name,
-        date: data.date,
-        time: data.time,
-        notes: data.notes,
-        clinicAddress: "Václavské náměstí 123/45, Praha 1, 110 00",
-        clinicPhone: "+420 XXX XXX XXX",
-        bookingId: booking.id,
-      });
+      await Promise.all([
+        // Send confirmation to patient
+        sendBookingConfirmation(patient.email, {
+          patientName: `${patient.firstName} ${patient.lastName}`,
+          doctorName: `${booking.doctor.firstName} ${booking.doctor.lastName}`,
+          serviceName: booking.service.name,
+          date: data.date,
+          time: data.time,
+          clinicAddress: "Václavské náměstí 123/45, Praha 1, 110 00",
+          clinicPhone: "+420 XXX XXX XXX",
+          bookingId: booking.id,
+        }),
+
+        // Send notification to clinic
+        sendBookingNotification({
+          patientName: `${patient.firstName} ${patient.lastName}`,
+          patientEmail: patient.email,
+          patientPhone: patient.phone,
+          doctorName: `${booking.doctor.firstName} ${booking.doctor.lastName}`,
+          serviceName: booking.service.name,
+          date: data.date,
+          time: data.time,
+          notes: data.notes,
+          clinicAddress: "Václavské náměstí 123/45, Praha 1, 110 00",
+          clinicPhone: "+420 XXX XXX XXX",
+          bookingId: booking.id,
+        }),
+      ]);
     } catch (emailError) {
       // Log error but don't fail the booking
       console.error("[Booking] Email notification failed:", emailError);
