@@ -47,17 +47,27 @@ export default async function AdminDashboard() {
     }),
 
     // Statistics
-    Promise.resolve({
-      totalBookings: await db.booking.count(),
-      pendingBookings: await db.booking.count({
-        where: { status: "PENDING" },
-      }),
-      totalContacts: await db.contact.count(),
-      newContacts: await db.contact.count({
-        where: { status: "NEW" },
-      }),
-      totalPatients: await db.patient.count(),
-    }),
+    Promise.all([
+      db.booking.count(),
+      db.booking.count({ where: { status: "PENDING" } }),
+      db.contact.count(),
+      db.contact.count({ where: { status: "NEW" } }),
+      db.patient.count(),
+    ]).then(
+      ([
+        totalBookings,
+        pendingBookings,
+        totalContacts,
+        newContacts,
+        totalPatients,
+      ]) => ({
+        totalBookings,
+        pendingBookings,
+        totalContacts,
+        newContacts,
+        totalPatients,
+      })
+    ),
   ]);
 
   return (
