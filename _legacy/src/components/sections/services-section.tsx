@@ -104,6 +104,13 @@ const itemVariants = {
   },
 };
 
+// Map colors to Stitch palette
+const iconColorMap: Record<string, string> = {
+  'text-primary-600 bg-primary-100': 'bg-blue-50 dark:bg-blue-900/20 text-primary dark:text-blue-400 group-hover:bg-primary group-hover:text-white',
+  'text-secondary-600 bg-secondary-100': 'bg-teal-50 dark:bg-teal-900/20 text-primary dark:text-teal-400 group-hover:bg-primary group-hover:text-white',
+  'text-accent-600 bg-accent-100': 'bg-indigo-50 dark:bg-indigo-900/20 text-primary dark:text-indigo-400 group-hover:bg-primary group-hover:text-white',
+};
+
 export function ServicesSection() {
   return (
     <section id="services" className="py-24 bg-zinc-50 dark:bg-zinc-900/50 border-y border-zinc-200 dark:border-zinc-800">
@@ -138,13 +145,6 @@ export function ServicesSection() {
           className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4"
         >
           {services.map((service) => {
-            // Map colors to Stitch palette
-            const iconColorMap: Record<string, string> = {
-              'text-primary-600 bg-primary-100': 'bg-blue-50 dark:bg-blue-900/20 text-primary dark:text-blue-400 group-hover:bg-primary group-hover:text-white',
-              'text-secondary-600 bg-secondary-100': 'bg-teal-50 dark:bg-teal-900/20 text-primary dark:text-teal-400 group-hover:bg-primary group-hover:text-white',
-              'text-accent-600 bg-accent-100': 'bg-indigo-50 dark:bg-indigo-900/20 text-primary dark:text-indigo-400 group-hover:bg-primary group-hover:text-white',
-            };
-
             return (
               <motion.div
                 key={service.title}
