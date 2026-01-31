@@ -9,6 +9,8 @@ import TransformationCarousel from './components/TransformationCarousel';
 import { SERVICES, DOCTORS, REVIEWS, TRANSFORMATIONS } from './constants';
 import { Service } from './types';
 
+const STAR_INDICES = [0, 1, 2, 3, 4];
+
 function App() {
   const [isBookingOpen, setIsBookingOpen] = useState(false);
   const [selectedServiceForPricing, setSelectedServiceForPricing] = useState<Service | null>(null);
@@ -240,7 +242,9 @@ function App() {
               <div key={review.id} className="bg-navy-800 p-8 rounded-[2rem] relative border border-white/5 hover:bg-navy-800/80 transition-colors">
                 <Quote className="absolute top-8 right-8 w-12 h-12 text-primary-500 opacity-20" />
                 <div className="flex gap-1 text-yellow-500 mb-6">
-                  {[...Array(review.rating)].map((_, i) => <Star key={i} size={18} fill="currentColor" />)}
+                  {STAR_INDICES.map((i) => (
+                    i < review.rating ? <Star key={i} size={18} fill="currentColor" /> : null
+                  ))}
                 </div>
                 <p className="text-slate-300 mb-8 italic leading-relaxed text-lg">"{review.text}"</p>
                 <div className="flex items-center gap-4 pt-6 border-t border-white/10">
