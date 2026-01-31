@@ -15,8 +15,14 @@ type BookingWithRelations = Booking & {
 export default async function AdminDashboard() {
   // Authentication is handled by middleware.ts
 
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const tomorrow = new Date(today);
+  tomorrow.setDate(tomorrow.getDate() + 1);
+
   // Fetch data
-  const [bookings, contacts, stats] = await Promise.all([
+  const [bookings, contacts, stats, todayBookings] = await Promise.all([
     // Recent bookings (last 30 days)
     db.booking.findMany({
       where: {
@@ -57,6 +63,27 @@ export default async function AdminDashboard() {
         where: { status: "NEW" },
       }),
       totalPatients: await db.patient.count(),
+    }),
+
+    // Today's bookings
+    db.booking.findMany({
+      where: {
+        date: {
+          gte: today,
+          lt: tomorrow,
+        },
+        status: {
+          in: ["PENDING", "CONFIRMED"],
+        },
+      },
+      include: {
+        patient: true,
+        doctor: true,
+        service: true,
+      },
+      orderBy: {
+        time: "asc",
+      },
     }),
   ]);
 
@@ -268,7 +295,7 @@ export default async function AdminDashboard() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <TodaysAppointments />
+            <TodaysAppointments bookings={todayBookings} />
           </CardContent>
         </Card>
       </div>
@@ -277,40 +304,14 @@ export default async function AdminDashboard() {
 }
 
 // Today's appointments component
-async function TodaysAppointments() {
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-
-  const tomorrow = new Date(today);
-  tomorrow.setDate(tomorrow.getDate() + 1);
-
-  const todayBookings = await db.booking.findMany({
-    where: {
-      date: {
-        gte: today,
-        lt: tomorrow,
-      },
-      status: {
-        in: ["PENDING", "CONFIRMED"],
-      },
-    },
-    include: {
-      patient: true,
-      doctor: true,
-      service: true,
-    },
-    orderBy: {
-      time: "asc",
-    },
-  });
-
-  if (todayBookings.length === 0) {
+function TodaysAppointments({ bookings }: { bookings: BookingWithRelations[] }) {
+  if (bookings.length === 0) {
     return <p className="text-neutral-500">Сегодня нет запланированных приёмов</p>;
   }
 
   return (
     <div className="space-y-3">
-      {todayBookings.map((booking) => (
+      {bookings.map((booking) => (
         <div
           key={booking.id}
           className="flex items-center gap-4 rounded-lg border bg-white p-4"
